@@ -8,6 +8,8 @@ lib-cov
 *.gz
 
 .idea
+.DS_Store
+.vagrant
 
 pids
 logs
