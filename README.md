@@ -2,7 +2,8 @@
 
 ```
 npm install
-node server.js
+bower install
+node app/server.js
 ```
 
 open and login with 2 browsers (localhost:3000)
