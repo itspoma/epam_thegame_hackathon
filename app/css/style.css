@@ -131,6 +131,10 @@ table span {
     z-index: 2;
 }
 
+table span.captured {
+	opacity: 0.3;
+}
+
 table span:hover {
 	background-position: -76px 0;
 }

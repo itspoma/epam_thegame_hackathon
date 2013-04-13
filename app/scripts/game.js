@@ -24,6 +24,10 @@ app.initDummy = function() {
 };
 
 app.helpers = {
+    rand: function(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
     //
     drawTable: function() {
         var $container = $('#container');
@@ -57,6 +61,8 @@ app.helpers = {
         if (typeof(data) === 'undefined') {
             return null;
         }
+
+        data.$td = $('td', $('tr').eq(x-1)).eq(y-1);
 
         return data;
     },
@@ -173,9 +179,23 @@ app.helpers = {
                             params.pointsPath.push(params.startPoint);
 
                             console.log('ENEMIES IN BOX', enemiesInsidePoints.length);
+
                             // mark captured enemies
                             for (var i = 0, enemiesInsidePoint; enemiesInsidePoint = enemiesInsidePoints[i]; i++) {
-                                app.points[enemiesInsidePoint.x+':'+enemiesInsidePoint.y].captured = true;
+                                var pointData = app.helpers.getPointData(enemiesInsidePoint.x, enemiesInsidePoint.y);
+                                app.points[pointData.x+':'+pointData.y].captured = true;
+                                var $span = $('span', pointData.$td);
+
+                                (function($span) {
+                                  $span.css({'position':'absolute', 'margin-top':'-40px','z-index':999})
+                                  $span.animate({zoom:app.helpers.rand(2,3),'margin-left':-40},'slow', function(){
+                                    $span.animate({zoom:1,'margin-left':0},'fast');
+
+                                    $span.animate({opacity:0.3},'slow',function(){
+                                      $span.addClass('captured');
+                                    });
+                                  });
+                                })($span);
                             }
 
                             for (var i=0; i<=params.pointsPath.length-1; i++) {
@@ -188,6 +208,13 @@ app.helpers = {
                                   $td.prepend($('<i/>').attr('class','connected'));
                                 }
                                 $i = $('i.connected',$td);
+
+                                (function($i){
+                                  $i.hide();
+                                  setTimeout(function(){
+                                    $i.fadeIn('slow');//slideDown
+                                  },50);
+                                })($i);
 
                                 var _nextPoint = params.pointsPath[i+1];
                                 if (typeof(_nextPoint)=='undefined') {
