@@ -2,6 +2,7 @@
 	padding: 150px 0;
 	background: #transparent;
 	overflow: hidden;
+	position: absolute;
 }
 
 /*Time to finalise the cloud shape*/
