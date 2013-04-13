@@ -76,6 +76,7 @@ $(function(){
     },
     startGame: function(){
       this.helpers.initClouds();
+      $('#myModal').reveal();
     }
 
   }
