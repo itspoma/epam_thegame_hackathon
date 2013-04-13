@@ -118,3 +118,9 @@ table span.wolf.filled {
 table span.wolf.filled:hover {
 	background-position: -684px 0;
 }
+
+.loader {
+	background-image: url('../img/loader.gif');
+	background-repeat: no-repeat;
+	background-position: center center;
+}
