@@ -17,7 +17,7 @@ $(function(){
         cachedEls.$login
           .animate(
             { left: '-2000px', opacity: 0 },
-            { duration: 600, easing: 'swing', complete: function() {
+            { duration: 1200, easing: 'swing', complete: function() {
                 cachedEls.$login.hide();
                 cachedEls.$game.show().animate(
                   { left: '0', opacity: 1 },
