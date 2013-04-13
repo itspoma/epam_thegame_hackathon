@@ -111,6 +111,50 @@ app.canvas = {
         return result;
     },
 
+    // get points count in polygon
+    // @param {points} [[x,y],[x,y],[x,y],..]
+    getPointsInBox: function(points) {
+        var isPointInPoly = function(poly, pt){
+            for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+                ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
+                && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
+                && (c = !c);
+            return c;
+        };
+
+        // convert [x,y] to {x:?, y:?}
+        var polyArray = [];
+        for (var i = 0, point; point = points[i]; i++) {
+            polyArray.push({x:point[0], y:point[1]});
+        }
+
+        //
+        var pointsCount = 0;
+
+        // calc total points inside
+        for (var pointXY in app.points) {
+            var point = pointXY.split(':');
+                point[0] = parseInt(point[0], 10);
+                point[1] = parseInt(point[1], 10);
+
+            var isPointInPolygonBorder = false;
+            for (var i = 0, pointBorder; pointBorder = points[i]; i++) {
+                if (point[0]==pointBorder[0] && point[1]==pointBorder[1]) {
+                    isPointInPolygonBorder = true;
+                    break;
+                }
+            }
+
+            if (!isPointInPolygonBorder) {
+                if (isPointInPoly(polyArray, {x:point[0], y:point[1]})) {
+                    pointsCount++;
+                }
+            }
+        };
+
+        return pointsCount;
+    },
+
     calcBox: function(x,y,params) {
         params = params || {};
         params.deep = params.deep || 0;
@@ -119,7 +163,7 @@ app.canvas = {
         params.pointsPath = params.pointsPath || [];
 
         var weight = 0;
-        var points = app.canvas.getClosestDots(x,y);
+        var points = app.canvas.getClosestDots(x,y).reverse();
 
         var __pre = x+':'+y+(new Array(params.deep).join(' ')) + ' > ';
 
@@ -129,19 +173,27 @@ app.canvas = {
             for (var i = 0, point; point = points[i]; i++) {
                 if (point[0]==params.startPoint[0] && point[1]==params.startPoint[1]) {
                     if (params.deep >= 3) {
+
                         params.pointsPath.push([x,y]);
                         params.pointsPath.push(params.startPoint);
 
-                        console.log(__pre+'WO-HO-HO !!!!!!!!!!!!!!!!!!!!', x,y,point,params);
-                        for (var i=0; i<=params.pointsPath.length-1; i++) {
-                            var startPoint = params.pointsPath[i];
-                            var endPoint = params.pointsPath[i+1];
-                            console.log('startPoint',startPoint);
-                            console.log('endPoint',endPoint);
-                            app.canvas.drawLine(
-                                startPoint[0]*app.canvas.boxSize,startPoint[1]*app.canvas.boxSize,
-                                endPoint[0]*app.canvas.boxSize,endPoint[1]*app.canvas.boxSize
-                            );
+                        var pointsInside = app.canvas.getPointsInBox(params.pointsPath);
+                        console.log('POINTS IN BOX', pointsInside);
+                        //
+
+                        if (pointsInside >= 1)
+                        {
+                            console.log(__pre+'WO-HO-HO !!!!!!!!!!!!!!!!!!!!', x,y,point,params);
+                            for (var i=0; i<=params.pointsPath.length-1; i++) {
+                                var startPoint = params.pointsPath[i];
+                                var endPoint = params.pointsPath[i+1];
+                                console.log('startPoint',startPoint);
+                                console.log('endPoint',endPoint);
+                                app.canvas.drawLine(
+                                    startPoint[0]*app.canvas.boxSize,startPoint[1]*app.canvas.boxSize,
+                                    endPoint[0]*app.canvas.boxSize,endPoint[1]*app.canvas.boxSize
+                                );
+                            }
                         }
 
                         return;
