@@ -38,3 +38,19 @@ table span {
 table span:hover {
 	background-position: -76px 0;
 }
+
+table span.sheep {
+	background-position: -152px 0;
+}
+
+table span.sheep:hover {
+	background-position: -228px 0;
+}
+
+table span.wolf {
+	background-position: -304px 0;
+}
+
+table span.wolf:hover {
+	background-position: -380px 0;
+}
