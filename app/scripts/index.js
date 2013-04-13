@@ -3,14 +3,40 @@ var app;
 $(function(){
   app = {
     init: function() {
+      this.cachedEls.initCache();
       this.helpers.drawTable();
       this.bindEvents();
     },
     bindEvents: function() {
+      var cachedEls = this.cachedEls;
       $('#container table td span').on('click', function(){
         var x = $(this).attr('data-x');
         var y = $(this).attr('data-y');
       });
+      cachedEls.$play.on('click', function() {
+        cachedEls.$login
+          .animate(
+            { left: '-2000px', opacity: 0 },
+            { duration: 600, easing: 'swing', complete: function() {
+                cachedEls.$login.hide();
+                cachedEls.$game.show().animate(
+                  { left: '0', opacity: 1 },
+                  { duration: 600, easing: 'swing', complete: function() {
+
+                  }}
+                );
+              }
+            }
+
+        );
+      });
+    },
+    cachedEls: {
+      initCache: function() {
+        this.$login = $('.login');
+        this.$game = $('.game');
+        this.$play = $('.btn.play');
+      }
     },
     // app.points[x+':'+y] = {status:.., user:2}
     points: {},
