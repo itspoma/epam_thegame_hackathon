@@ -12,6 +12,8 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+body { overflow: hidden; }
+
 .wraper {
 	position: absolute;
 	top: 20px;
