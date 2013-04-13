@@ -39,7 +39,7 @@ html {
 }
 
 .player .avatar {
-	background: url('../img/players.png') no-repeat top left;	
+	background: url('../img/players.png') no-repeat top left;
 	height: 150px;
 	margin: 0 auto;
 	width: 150px;
@@ -74,12 +74,59 @@ table td {
 	vertical-align: middle;
 }
 
+table td i.connected {
+	display: block;
+	position: absolute;
+	background: url(https://github.com/itspoma/epam_thegame_hackathon/diff_blob/26d28144bbc327ff955b86208a430c66a5512af4/app/img/rope-red.png?raw=true) repeat;
+	height: 10px;
+	width: 75px;
+	z-index: 1;
+	margin-top: 35px;
+}
+table td i.connected.connect_temp {
+	background-color: blue;
+}
+table td i.connected.connect_left {
+	margin-left: -45px;
+}
+table td i.connected.connect_right {
+	margin-left: 45px;
+}
+table td i.connected.connect_bottom {
+	-webkit-transform: rotate(90deg);
+	margin-top: 75px;
+}
+table td i.connected.connect_bottomleft {
+	-webkit-transform: rotate(-45deg);
+	margin-left: -45px;
+	margin-top: 80px;
+}
+table td i.connected.connect_bottomright {
+	-webkit-transform: rotate(45deg);
+	margin-top: 80px;
+	margin-left: 45px;
+}
+table td i.connected.connect_topleft {
+	-webkit-transform: rotate(45deg);
+/*	margin-left: -25px;
+	margin-top: -10px;*/
+	margin-left: -35px;
+	margin-top: 0px;
+}
+table td i.connected.connect_topright {
+	-webkit-transform: rotate(135deg);
+	margin-left: 45px;
+	margin-top: 5px;
+}
+
 table span {
+	position: relative;
 	background: url('../img/cell-bg.png') no-repeat top left;
 	cursor: pointer;
 	display: block;
 	height: 76px;
-	width: 76px; 
+	width: 76px;
+	z-index: 2;
 }
 
 table span:hover {
