@@ -10,101 +10,113 @@
   </head>
 
   <body>
-    <div id="container">
-        <table>
-          <tbody>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-              <td class="dot"><span class="sheep"></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-              <td class="dot"><span class="wolf filled"></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="sheep filled"></span></td>
-              <td class="dot"><span class="wolf"></span></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-            </tr>
-            <tr>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span class="sheep filled"></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-              <td class="dot"><span></span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-     <script data-main="scripts/main" src="scripts/vendor/requirejs/require.js"></script>
-    <script id="tpl-table-row" type="text/template">
-      <tr>
-          <td><span class="<%= Metadata.dot.status %>"</td>
-      </tr>
-    </script>
+  	<div class="wraper">
+    		<div class="player sheep">
+        	<div class="avatar"></div>
+          <h5>Sheep</h5>
+          <p>9</p>
+        </div>
+        <div id="container">
+            <table>
+              <tbody>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                  <td class="dot"><span class="sheep"></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                  <td class="dot"><span class="wolf filled"></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span class="wolf"></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                </tr>
+                <tr>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span class="sheep filled"></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                  <td class="dot"><span></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="player wolf">
+          	<div class="avatar"></div>
+            <h5>Wolf</h5>
+            <p>6</p>
+          </div>
+        </div>
+     	<script data-main="scripts/main" src="scripts/vendor/requirejs/require.js"></script>
+			<script id="tpl-table-row" type="text/template">
+				<tr>
+					<td><span class="<%= Metadata.dot.status %>"</td>
+				</tr>
+      </script>
   </body>
 </html>

@@ -1,4 +1,10 @@
 /* Feel free to use @import. r.js will merge them, when building */
+@font-face
+{
+	font-family: callMe;
+	src: url('../fonts/call_me.ttf');
+}
+
 html {
 	background: url('../img/background.png') no-repeat top left;
   font-size: 100%;
@@ -9,12 +15,47 @@ html {
 #container {
 	background: url('../img/dot.png') repeat top left;
 	height: 545px;
-	margin: -291px 0 0 -395px;
 	padding: 20px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
 	width: 790px;
+}
+
+#container,
+.player {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.player {
+	font-family: 'callMe';
+	text-align: center;
+	text-shadow: -4px -4px #fff, 4px 4px #fff;
+	width: 245px;
+}
+
+.player .avatar {
+	background: url('../img/players.png') no-repeat top left;	
+	height: 150px;
+	margin: 0 auto;
+	width: 150px;
+}
+
+.player.sheep .avatar {
+	background-position: 0 0;
+}
+
+.player.wolf .avatar {
+	background-position: -150px 0;
+}
+
+.player h5 {
+	margin: 0px;
+	font-size: 36px;
+	font-weight: normal;
+}
+
+.player p {
+	margin: 20px 0;
+	font-size: 96px;
 }
 
 table {
