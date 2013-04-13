@@ -9,11 +9,12 @@ lib-cov
 
 .idea
 .DS_Store
-.vagrant
 
 pids
 logs
 results
+npm-debug.log
 
 node_modules
-npm-debug.log
+app/scripts/vendor
+dist

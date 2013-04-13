@@ -2,7 +2,16 @@
 
 ```
 npm install
-node server.js
+bower install
+node app/server.js
 ```
 
-open and login with 2 browsers (localhost:3000)
+To run requirejs optimizer:
+```
+cd app
+build/build.sh
+```
+and then change
+`express.static(__dirname + '/app')` to `express.static(__dirname + '/dist')`
+
+default port - `3000` 
