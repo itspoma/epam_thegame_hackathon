@@ -14,10 +14,8 @@ html {
 
 body { overflow: hidden; }
 
-.wraper {
-	position: absolute;
-	top: 20px;
-	left: 3%;
+.wrapper {
+	text-align: center;
 }
 
 #container {
