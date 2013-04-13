@@ -1,30 +1,41 @@
-var PageListItemView = Backbone.View.extend({
-    template: _.template($('#tpl-table-row').html()),
-    events: { "click span.dot": "publish" },
-    render: function (eventName) {
-       var html = this.template(this.model.toJSON());
-       this.setElement($(html));
-       return this;
-    },
-    publish: function () {
-        console.log(this.model.get("Metadata").Name);
-    }
-});
+define(['backbone'], function() {
+    var rowTemplate=_.template("<tr>"+
+         "<td class='name'><%= name %></td>"+
+         "<td class='age'><%= age %></td>"+
+         "</tr>");
 
-var PageListView = Backbone.View.extend({
-    tagName: 'table',
-    initialize: function () {
-        this.collection.bind("reset", this.render, this);
-    },
-    render: function (eventName) {
-        this.$el.empty();
+    /** View representing a table */
+    var TableView = Backbone.View.extend({
+        tagName: 'table',
 
-        this.collection.each(function(page) {
-            var pageview=new PageListItemView({ model: page });
-            var $tr=pageview.render().$el;           
-            this.$el.append($tr);
-        },this);
+        initialize : function() {
+            _.bindAll(this,'render','renderOne');
+        },
+        render: function() {
+            this.collection.each(this.renderOne);
+            return this;
+        },
+        renderOne : function(model) {
+            var row=new RowView({model:model});
+            this.$el.append(row.render().$el);
+            return this;
+        }
+    });
 
-        return this;
-    }
+    /** View representing a row of that table */
+    var RowView = Backbone.View.extend({  
+        events: {
+            "click .age": function() {console.log(this.model.get("name"));}
+        },
+
+        render: function() {
+            var html=rowTemplate(this.model.toJSON());
+            this.setElement( $(html) );
+            return this;
+        }
+    });
+
+    //var html = tableView.render().$el;
+    return TableView;
+    //$("body").append( tableView.render().$el );
 });
