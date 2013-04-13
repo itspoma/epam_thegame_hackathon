@@ -1,0 +1,23 @@
+.reveal-modal {
+	background: url('../img/cloud.png') no-repeat top left;
+	font-family: 'callMe';
+	height: 315px;		
+	left: 50%;
+	margin: -155px 0 0 -170px;
+	position: absolute;
+	top: 50%;
+	width: 345px;
+	z-index: 999;
+}
+
+.reveal-modal h1 {	
+	font-weight: normal;
+	margin: 15px 0;
+	text-align: center;
+}
+
+.reveal-modal p {
+	font-size: 22px;
+	padding: 0 10px;
+	text-align: center;
+}
