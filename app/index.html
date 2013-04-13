@@ -6,22 +6,45 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/clouds.css" rel="stylesheet" type="text/css" />
     <link href="css/login.css" rel="stylesheet" type="text/css" />
-    <title></title>
+    <link href="css/reveal.css" rel="stylesheet" type="text/css" />
+    <link href="css/game.css" rel="stylesheet" type="text/css" />
+    <title>Animals Game</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
   </head>
   <body>
     <div class="wrapper">
-      <section class="login">
-        <input type="image" src="img/play.png" class="btn">
+      <section id="pagename-login" class="login active">
+        <input type="image" src="img/play.png" class="btn play">
       </section>
-      <section class="game">
+      <section id="pagename-lobby" class="lobby reveal-modal-bg"></section>
+      <section id="pagename-game" class="game">
+        <div class="player sheep" id="player1Info">
+          <div class="avatar"></div>
+          <h5>Sheep</h5>
+          <p class="score">0</p>
+        </div>
         <div id="container"></div>
+        <div class="player wolf" id="player2Info">
+          <div class="avatar"></div>
+          <h5>Wolf</h5>
+          <p class="score">0</p>
+        </div>
       </section>
     </div>
 
+
+    <div id="myModal" class="reveal-modal">
+        <h1>Modal Title</h1>
+        <p>Any content could go in here</p>
+        <a class="close-reveal-modal">X</a>
+    </div>
+
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="scripts/game.js"></script>
+    <script type="text/javascript" src="scripts/jquery.reveal.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
 
   </body>
 </html>

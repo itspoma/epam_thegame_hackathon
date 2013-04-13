@@ -14,7 +14,7 @@ pids
 logs
 results
 npm-debug.log
-
+.vagrant
 node_modules
 app/scripts/vendor
 dist

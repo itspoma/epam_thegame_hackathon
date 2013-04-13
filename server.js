@@ -1,18 +1,15 @@
-var express = require("express"),
+var express = require('express'),
+    UUID    = require('node-uuid'),
     app     = express(),
     port    = parseInt(process.env.PORT, 10) || 3000,
-    http = require('http'),
-    server = http.createServer(app),
-    io = require('socket.io').listen(server, { log: false });
-  
-app.get("/", function(req, res) {
-  res.redirect("/index.html");
-});
-
+    http    = require('http'),
+    server  = http.createServer(app),
+    io      = require('socket.io').listen(server, { log: false });
+    
 app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.bodyParser());
-  app.use(express.static(__dirname + '/dist'));
+  app.use(express.static(__dirname + '/app'));
   app.use(express.errorHandler({
     dumpExceptions: true, 
     showStack: true
@@ -20,12 +17,69 @@ app.configure(function(){
   app.use(app.router);
 });
 
-io.sockets.on("connection", function(socket) {
-  console.log('CONNECTION');
-  socket.on('join', function(user, callback) {
-    console.log('smn want to connect : ' + user);    
-  });  
+//init SERVER listening
+server.listen(port);
+console.log('\t :: Express :: Listening on port ' + port );
+
+// single route
+app.get("/", function(req, res) {
+  res.redirect("/index.html");
 });
 
-server.listen(port);
+//keep clients
+var users = [],
+  playersCape = 2,
+  playerTurn = 0;
+// init SOCKETS listening for connection
+// add user UID to maintain list of users
+io.sockets.on('connection', function(socket) {
+  //generate unique id, looks like:
+  //5b2ca132-64bd-4513-99da-90e838ca47d1
+  //and store this on their socket/connection
+  var user = {};
+  user.id = UUID();
+  //save in db
+  users.push(user);
 
+  //EMITERS
+  //tell the player they are connected giving them their ID
+  socket.emit('connected', user);
+  console.log('\t socket.io:: client connected ' + user.id);
+
+  //connection status: alone or have someone to play with?
+  var isGameReady = false;
+  if(users.length > playersCape - 1) isGameReady = true;
+  //send game readiness status to ALL clients
+  io.sockets.emit('gameReadyStatus', isGameReady);
+
+  //LISTENERS
+  //after all rendering, animations etc
+  socket.on('clientReadyForGame', function(client){
+    console.log('CLIENT IS READY FOR GAME: id - ' + client.id);
+    var allAreReady = true;
+    //set ready to our user
+    users.forEach(function(user){
+      if(user.id === client.id) user.isReadyForGame = true;
+    });
+    //check all users for readiness
+    users.forEach(function(user){
+      if(! user.isReadyForGame) allAreReady = false
+    });
+    //emit to ALL that all are ready and game should start
+    if(allAreReady){
+      io.sockets.emit('startTurn', {player: users[playerTurn]});
+    };
+  });
+  //after player clicked on dot
+  socket.on('playerMadeTurn', function(data){
+    playerTurn = playerTurn === 0 ? 1 : 0;
+    io.sockets.emit('startTurn', {player: users[playerTurn]});
+    console.log('TURN STARTED: player turn - ' + users[playerTurn]);
+  });
+  //When this client disconnects
+  socket.on('disconnect', function () {
+    //Useful to know when someone disconnects
+    console.log('\t socket.io:: client disconnected ' + client.id );
+    //and mb do smthing with it
+  });
+});
