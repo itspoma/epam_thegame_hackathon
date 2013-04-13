@@ -79,11 +79,11 @@ table span {
 	cursor: pointer;
 	display: block;
 	height: 76px;
-	width: 76px; 
+	width: 76px;
 }
 
 table span:hover {
-	background-position: -76px 0;
+	background-position: -76px 0;	
 }
 
 table span.sheep {
