@@ -12,6 +12,11 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+.wraper {
+	position: absolute;
+	top: 20px;
+}
+
 #container {
 	background: url('../img/dot.png') repeat top left;
 	height: 545px;
