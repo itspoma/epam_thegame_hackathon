@@ -118,11 +118,6 @@ $(function(){
 
       }
     },
-<<<<<<< HEAD
-    startGame: function(){
-      this.helpers.initClouds();
-      $('#myModal').reveal();
-=======
     pages: {
       login: {
         initPage: function() {}
@@ -136,10 +131,9 @@ $(function(){
         initPage: function() {
           app.helpers.switchPageTo(app.cachedEls.$game);
           app.helpers.initClouds();
+          $('#myModal').reveal();
         }
       }
-
->>>>>>> added turn by turn gameplay
     }
 
   }
