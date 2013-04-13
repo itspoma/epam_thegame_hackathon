@@ -22,7 +22,7 @@ $(function(){
                 cachedEls.$game.show().animate(
                   { left: '0', opacity: 1 },
                   { duration: 600, easing: 'swing', complete: function() {
-
+                    app.startGame();
                   }}
                 );
               }
@@ -53,7 +53,20 @@ $(function(){
             $('#container table tr:last').append('<td><span></span></td>');
           }
         }
+      },
+      initClouds: function(){
+        var div = $('<div>').html(
+            '<div class="cloud x1"></div>'+
+            '<div class="cloud x2"></div>'+
+            '<div class="cloud x3"></div>'+
+            '<div class="cloud x4"></div>'+
+            '<div class="cloud x5"></div>').attr('id', "clouds");
+
+        $('.wrapper').before(div);
       }
+    },
+    startGame: function(){
+      this.helpers.initClouds();
     }
 
   }
