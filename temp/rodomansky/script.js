@@ -36,8 +36,8 @@ app.canvas = {
     },
 
     drawPoint: function(x, y, params) {
-        x = Math.round( x / this.boxSize ) * this.boxSize;
-        y = Math.round( y / this.boxSize ) * this.boxSize;
+        x = Math.floor( x / this.boxSize ) * this.boxSize + (this.boxSize / 2);
+        y = Math.floor( y / this.boxSize ) * this.boxSize + (this.boxSize / 2);
 
         params = params || {};
 
@@ -164,6 +164,7 @@ app.canvas = {
 
         var weight = 0;
         var points = app.canvas.getClosestDots(x,y).reverse();
+        var boxSize = app.canvas.boxSize;
 
         var __pre = x+':'+y+(new Array(params.deep).join(' ')) + ' > ';
 
@@ -190,8 +191,8 @@ app.canvas = {
                                 console.log('startPoint',startPoint);
                                 console.log('endPoint',endPoint);
                                 app.canvas.drawLine(
-                                    startPoint[0]*app.canvas.boxSize,startPoint[1]*app.canvas.boxSize,
-                                    endPoint[0]*app.canvas.boxSize,endPoint[1]*app.canvas.boxSize
+                                    (startPoint[0] * boxSize) - (boxSize / 2),(startPoint[1]*boxSize) - (boxSize / 2),
+                                    (endPoint[0] * boxSize) - (boxSize / 2),(endPoint[1]*boxSize) - (boxSize / 2)
                                 );
                             }
                         }
