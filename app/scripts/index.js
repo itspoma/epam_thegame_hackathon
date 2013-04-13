@@ -63,6 +63,15 @@ $(function(){
             '<div class="cloud x5"></div>').attr('id', "clouds");
 
         $('.wrapper').before(div);
+      },
+      updateScore: function(player1Score, player2Score){
+        var p1Score = $("#player1Info .score");
+        var p2Score = $("#player2Info .score");
+        p1Score.text(parseInt(p1Score.text()) + parseInt(player2Score));
+        p2Score.text(parseInt(p2Score.text()) + parseInt(player1Score));
+      },
+      updateTimer: function(){
+
       }
     },
     startGame: function(){
