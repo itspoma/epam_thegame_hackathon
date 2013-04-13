@@ -8,6 +8,7 @@
     <link href="css/login.css" rel="stylesheet" type="text/css" />
     <link href="css/reveal.css" rel="stylesheet" type="text/css" />
     <link href="css/game.css" rel="stylesheet" type="text/css" />
+    <link href="css/timer.css" rel="stylesheet" type="text/css" />
     <title>Animals Game</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -20,13 +21,13 @@
       <section id="pagename-lobby" class="lobby reveal-modal-bg"></section>
       <section id="pagename-game" class="game">
         <div class="player sheep" id="player1Info">
-          <div class="avatar"></div>
+          <div class="avatar timer"></div>
           <h5>Sheep</h5>
           <p class="score">0</p>
         </div>
         <div id="container"></div>
         <div class="player wolf" id="player2Info">
-          <div class="avatar"></div>
+          <div class="avatar timer"></div>
           <h5>Wolf</h5>
           <p class="score">0</p>
         </div>
@@ -45,7 +46,9 @@
     <script type="text/javascript" src="scripts/jquery.reveal.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <!--<script type="text/javascript" src="scripts/index.js"></script>-->
+    <script type="text/javascript" src="scripts/timer.js"></script>
     <script type="text/javascript" src="scripts/game.js"></script>
+
 
   </body>
 </html>

@@ -332,6 +332,9 @@ app.bindEvents = function() {
 app.init = function() {
     $('.login').hide();
     app.helpers.drawTable();
+    timer.start('player2Info', function(){
+      alert('Finished counting down');
+    });
     app.bindEvents();
 };
 
