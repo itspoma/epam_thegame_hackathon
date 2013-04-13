@@ -6,8 +6,8 @@
 		position: fixed; 
 		height: 100%;
 		width: 100%;
-		background: #000;
-		background: rgba(0,0,0,.8);
+		background-color: #000;
+		opacity: .3;
 		z-index: 100;
 		display: none;
 		top: 0;
@@ -16,21 +16,28 @@
 	
 	.reveal-modal {
 		visibility: hidden;
-		top: 100px; 
+		background: url('../img/cloud.png') no-repeat top left;
+		font-family: 'callMe';
+		height: 315px;		
 		left: 50%;
-		margin-left: -300px;
-		width: 520px;
-		background: #eee url(cloud.png) no-repeat -200px -80px;
+		margin: -155px 0 0 -170px;
 		position: absolute;
-		z-index: 101;
-		padding: 30px 40px 34px;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
-		border-radius: 5px;
-		-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
-		-webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
-		-box-shadow: 0 0 10px rgba(0,0,0,.4);
+		top: 50%;
+		width: 345px;
+		z-index: 999;
 		}
+		
+	.reveal-modal h1 {	
+		font-weight: normal;
+		margin: 15px 0;
+		text-align: center;
+	}
+
+	.reveal-modal p {
+		font-size: 22px;
+		padding: 0 10px;
+		text-align: center;
+	}
 		
 	.reveal-modal.small 		{ width: 200px; margin-left: -140px;}
 	.reveal-modal.medium 		{ width: 400px; margin-left: -240px;}
@@ -43,7 +50,7 @@
 		position: absolute;
 		top: 8px;
 		right: 11px;
-		color: #aaa;
+		color: #333;
 		text-shadow: 0 -1px 1px rbga(0,0,0,.6);
 		font-weight: bold;
 		cursor: pointer;
