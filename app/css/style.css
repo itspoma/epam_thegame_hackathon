@@ -15,6 +15,7 @@ html {
 .wraper {
 	position: absolute;
 	top: 20px;
+	left: 3%;
 }
 
 #container {
@@ -34,7 +35,7 @@ html {
 	font-family: 'callMe';
 	text-align: center;
 	text-shadow: -4px -4px #fff, 4px 4px #fff;
-	width: 245px;
+	width: 200px;
 }
 
 .player .avatar {
