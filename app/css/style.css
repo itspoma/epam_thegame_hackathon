@@ -54,3 +54,11 @@ table span.wolf {
 table span.wolf:hover {
 	background-position: -380px 0;
 }
+
+table span.sheep.filled {
+	background-position: -456px 0;
+}
+
+table span.wolf.filled {
+	background-position: -608px 0;
+}
