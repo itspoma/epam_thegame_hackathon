@@ -209,7 +209,7 @@ $(function(){
     settings: {
       boardWidth: 10,
       boardHeight: 7,
-      winnerLimit: 2
+      winnerLimit: 3
     },
 
     properties: {
