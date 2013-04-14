@@ -6,8 +6,12 @@ $(function(){
       this.cachedEls.initCache();
       this.helpers.drawTable();
       this.bindEvents();
+<<<<<<< HEAD
       app.initDummy();
       app.pages.login.initPage();
+=======
+      //app.initDummy();
+>>>>>>> removed dummy user swith code
     },
 
     initDummy: function() {
@@ -44,9 +48,9 @@ $(function(){
             app.pages.lobby.initPage();
           }
         });
-        app.properties.socket.on('startTurn', function(gameData){
-          console.log(gameData);
+        app.properties.socket.on('startTurn', function(gameData) {
           app.properties.currentGameData = gameData;
+          app.properties.currentUser = gameData.player.id;
           var playerTurnID = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + playerTurnID);
           if (app.properties.userId === playerTurnID) {
@@ -93,21 +97,13 @@ $(function(){
             return;
         }
 
-        var userData = app.helpers.getUserData(app.userTurn);
+        var userData = app.helpers.getUserData(app.properties.userId);
 
         $('span',$td).addClass(app.properties.hero);
-        app.helpers.addPoint(x, y, userData.id);
+        app.helpers.addPoint(x, y, app.properties.userId);
         console.log(app.properties.currentGameData.enemy.id);
         app.helpers.calculatePolygon(x, y, app.properties.currentGameData.enemy.id);
-        //emit socket
         app.helpers.makeTurn(x,y,hero);
-
-        if (app.userTurn == 1) {
-          app.userTurn = 2;
-        }
-        else {
-          app.userTurn = 1;
-        }
       }
     },
 
@@ -134,6 +130,7 @@ $(function(){
     properties: {
       currentPage: $('section[id^="pagename-"]').filter(function () { return $(this).hasClass('active'); }),
       currentGameData: null,
+      currentUser: null,
       socket: '',
       userId: '',
       hero: ''
