@@ -13,10 +13,10 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
-body { 
+body {
   margin: 0px;
 	overflow: hidden;
-	padding: 20px 0;	
+	padding: 20px 0;
 }
 
 .wrapper {
@@ -41,6 +41,7 @@ body {
 	text-align: center;
 	text-shadow: -4px -4px #fff, 4px 4px #fff;
 	width: 200px;
+	opacity: 0.3;
 }
 
 .player .avatar {
@@ -56,6 +57,10 @@ body {
 
 .player.wolf .avatar {
 	background-position: -150px 0;
+}
+
+.player.active {
+	opacity: 1;
 }
 
 .sheep.active .avatar {
@@ -186,7 +191,7 @@ table span.wolf.filled:hover {
 @media all and (max-width: 900px) {
   .player {
     width: 75px;
-  }	
+  }
 	.player .avatar {
 		height: 75px;
 		width: 75px;
@@ -197,7 +202,7 @@ table span.wolf.filled:hover {
 	}
 	.player h5 {
 		font-size: 22px;
-	}	
+	}
 	.player p {
 		font-size: 60px;
 		margin: 0;
@@ -208,7 +213,7 @@ table span.wolf.filled:hover {
 	table span {
 		background-size: 320px 32px;
 		height: 32px;
-		width: 32px;	
+		width: 32px;
 	}
 	table span:hover {
 		background-position: -32px 0;

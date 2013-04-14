@@ -10,7 +10,7 @@ $(function(){
 
       // rand hero's animation
       setInterval(function(){
-         $els = app.helpers.rand(1,2) == 1 ? $('.wolf:not(.hover)') : $('.sheep:not(.hover)');
+         $els = app.helpers.rand(1,2) == 1 ? $('table .wolf:not(.hover)') : $('table .sheep:not(.hover)');
          $el = $els.eq(app.helpers.rand(0,$els.length-1));
          (function(){
             $el.addClass('hover');
@@ -83,8 +83,18 @@ $(function(){
 
           app.helpers.addPoint(data.enemy.point.x, data.enemy.point.y, data.player);
 
-          app.helpers.calculatePolygon(data.enemy.point.x, data.enemy.point.y, data.player);
+          app.helpers.calculatePolygon(data.enemy.point.x, data.enemy.point.y, data.player, function(){
+              app.properties.currentUser = data.player;
 
+              app.messages.showRoundLoserMessage(function(){
+                app.messages.hideMessage();
+                app.reset_game();
+              });
+              app.sounds.playFailSound();
+
+              var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
+              $scoreEl.text(parseInt($scoreEl.text()) + 1);
+          });
         });
 
         app.properties.socket.on('startTurn', function(gameData) {
@@ -95,13 +105,26 @@ $(function(){
           app.properties.currentGameData = gameData;
           app.properties.currentUser = gameData.player.id;
 
+          $('.player.active').removeClass('active');
+          $('.player.'+gameData.player.hero).addClass('active');
+
         });
         app.properties.socket.on('enemyLeftGame', function() {
-          //Show error popup
+          app.messages.showErrorEnemyDisconected();
         });
       });
       //APPLY click handlers
       $('table td', cachedEls.$container).on('click', app.binders.onPointClick);
+    },
+
+    reset_game: function() {
+      $('span.wolf, span.sheep').attr('class','');
+      $('span.captured').removeClass('captured');
+      $('td span').css({'opacity':1});
+      app.points = [];
+    },
+    inc_score: function() {
+      //
     },
 
     binders: {
@@ -134,7 +157,19 @@ $(function(){
         $('span',$td).addClass(app.properties.hero);
         app.helpers.addPoint(x, y, app.properties.userId);
         // console.log(app.properties.currentGameData.enemy.id);
-        app.helpers.calculatePolygon(x, y, app.properties.userId);
+
+        app.helpers.calculatePolygon(x, y, app.properties.userId, function(){
+          app.properties.currentUser = app.properties.userId;
+
+          app.messages.showRoundWinnerMessage(function(){
+            app.messages.hideMessage();
+            app.reset_game();
+          });
+          app.sounds.playWinnerSound();
+
+          var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
+          $scoreEl.text(parseInt($scoreEl.text()) + 1);
+        });
 
         app.helpers.makeTurn(x,y);
       }
@@ -177,12 +212,13 @@ $(function(){
         );
       },
 
-      showRoundWinnerMessage: function(){
+      showRoundWinnerMessage: function(cb){
         this.showMessage(
           '<h1>Woohoo!</h1>'+
           '<p>You won the round!</p>'+
-          '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
+          '<p><input class="game-reset" type="image" src="../img/continue.png"></p>'
         );
+        $('.reveal-modal input').one('click', cb);
       },
 
       showGameWinnerMessage: function(){
@@ -192,12 +228,13 @@ $(function(){
         );
       },
 
-      showRoundLoserMessage: function(){
+      showRoundLoserMessage: function(cb){
         this.showMessage(
           '<h1>Damn!</h1>'+
             '<p>Let\'s try new round!</p>'+
-            '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
+            '<p><input class="game-reset" type="image" src="../img/continue.png"></p>'
         );
+        $('.reveal-modal input').one('click', cb);
       },
 
       showGameLoserMessage: function(){
@@ -211,6 +248,13 @@ $(function(){
         this.showMessage(
           '<h1>Damn!</h1>'+
             '<p>Error connection!</p>'
+        );
+      },
+
+      showErrorEnemyDisconected: function(){
+        this.showMessage(
+          '<h1><br></h1>'+
+          '<p>Sorry, enemy left the game!</p>'
         );
       },
 
@@ -234,6 +278,10 @@ $(function(){
 
       playWinnerSound: function(){
         this.playSound({urls:['../sounds/horn.ogg', '../sounds/horn.mp3']});
+      },
+
+      playFailSound: function(){
+        this.playSound({urls:['../sounds/fail.ogg', '../sounds/fail.mp3']});
       },
 
       playPlayer1PolygonSound: function(){
@@ -286,10 +334,6 @@ $(function(){
             '<div class="cloud x5"></div>').attr('id', "clouds");
 
         $('.wrapper').before(div);
-      },
-
-      resetGame: function(){
-
       },
 
       updateScore: function(player1Score, player2Score){
@@ -422,7 +466,7 @@ $(function(){
       },
 
       //
-      calculatePolygon: function(x,y,uid, params) {
+      calculatePolygon: function(x,y,uid,onCaptured, params) {
         params = params || {
           depth: 0,
           excludes: [],
@@ -502,7 +546,17 @@ $(function(){
                                 })($span);
                             }
 
-                            return true;
+                            //
+                            if (app.properties.currentHero == 'wolf') {
+                              app.sounds.playPlayer2PolygonSound();
+                            }
+                            else {
+                              app.sounds.playPlayer1PolygonSound();
+                            }
+
+                            onCaptured();
+
+                            return;
                         }
                     }
                 }
@@ -513,7 +567,7 @@ $(function(){
                             path.push(point);
 
                         //weight += 1 +
-                        arguments.callee(point.x, point.y, uid, {
+                        arguments.callee(point.x, point.y, uid, onCaptured, {
                             depth: params.depth+1,
                             excludes: params.excludes,
                             startPoint: params.startPoint,
@@ -523,8 +577,6 @@ $(function(){
                 }
             }
         }
-
-        return false;
       }
     },
 

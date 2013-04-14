@@ -1,7 +1,7 @@
 var express = require('express'),
     UUID    = require('node-uuid'),
     app     = express(),
-    port    = parseInt(process.env.PORT, 10) || 5007,
+    port    = parseInt(process.env.PORT, 10) || 5009,
     http    = require('http'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server, { log: false });
@@ -81,7 +81,7 @@ io.sockets.on('connection', function(socket) {
     //emit to ALL that all are ready and game should start
     if(allAreReady){
       console.log('ALL ARE READY - START TURN: ' + usersID[playerTurn]);
-      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn] }, enemy: {} } );
+      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn], hero:possibleHeroes[playerTurn] }, enemy: {} } );
     }; //else w8 for another player to be ready
   });
   //after player clicked on dot
@@ -91,7 +91,7 @@ io.sockets.on('connection', function(socket) {
     playerTurn = playerTurn === 0 ? 1 : 0;
     var enemyData = data || {};
     var turnDAta = {
-                    player: { id : usersID[playerTurn] },
+                    player: { id : usersID[playerTurn], hero:possibleHeroes[playerTurn] },
                     enemy: enemyData
                     };
     io.sockets.emit('startTurn', turnDAta);
