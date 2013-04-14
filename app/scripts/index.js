@@ -195,7 +195,7 @@ $(function(){
       playSound: function(){
         var sound = new Howl({
           //urls: ['../sounds/sound1.mp3', '../sounds/sheep.ogg', '../sounds/sound1.wav'],
-          urls: ['../sounds/sound1.wav']
+          urls: ['../sounds/sound2.ogg']
           //volume: 0.5
         }).play();
       }
@@ -515,7 +515,7 @@ $(function(){
     pages: {
       login: {
         initPage: function() {
-          //app.sounds.playLoginSound();
+          app.sounds.playLoginSound();
         }
       },
       lobby: {
