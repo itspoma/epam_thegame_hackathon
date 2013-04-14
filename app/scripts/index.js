@@ -153,19 +153,33 @@ $(function(){
         );
       },
 
-      showWinnerMessage: function(){
+      showRoundWinnerMessage: function(){
         this.showMessage(
           '<h1>Woohoo!</h1>'+
           '<p>You won the round!</p>'+
-          '<p><input type="image" src="../img/continue.png"></p>'
+          '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
         );
       },
 
-      showLoserMessage: function(){
+      showGameWinnerMessage: function(){
+        this.showMessage(
+          '<h1>Woohoo!</h1>'+
+            '<p>You won the GAME!</p>'
+        );
+      },
+
+      showRoundLoserMessage: function(){
         this.showMessage(
           '<h1>Damn!</h1>'+
-          '<p>Let\'s try new round!</p>'+
-          '<p><input type="image" src="../img/continue.png"></p>'
+            '<p>Let\'s try new round!</p>'+
+            '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
+        );
+      },
+
+      showGameLoserMessage: function(){
+        this.showMessage(
+          '<h1>Damn!</h1>'+
+            '<p>You lose.</p>'
         );
       },
 
@@ -248,6 +262,10 @@ $(function(){
             '<div class="cloud x5"></div>').attr('id', "clouds");
 
         $('.wrapper').before(div);
+      },
+
+      resetGame: function(){
+
       },
 
       updateScore: function(player1Score, player2Score){
