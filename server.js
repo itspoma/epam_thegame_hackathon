@@ -1,17 +1,22 @@
 var express = require('express'),
     UUID    = require('node-uuid'),
     app     = express(),
-    port    = parseInt(process.env.PORT, 10) || 5004,
+    port    = parseInt(process.env.PORT, 10) || 5007,
     http    = require('http'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server, { log: false });
-    
+
+process.on('exit', function(){
+  console.log('EXIT');
+  server.close()
+});
+
 app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.bodyParser());
   app.use(express.static(__dirname + '/app'));
   app.use(express.errorHandler({
-    dumpExceptions: true, 
+    dumpExceptions: true,
     showStack: true
   }));
   app.use(app.router);
@@ -64,7 +69,7 @@ io.sockets.on('connection', function(socket) {
   //LISTENERS
   //after all rendering, animations etc
   socket.on('clientReadyForGame', function(client){
-    //console.log('CLIENT IS READY FOR GAME: id - ' + client.id);    
+    //console.log('CLIENT IS READY FOR GAME: id - ' + client.id);
     //set ready to our user
     users[client.id].isReadyForGame = true;
     //check all users for readiness
@@ -82,10 +87,11 @@ io.sockets.on('connection', function(socket) {
   //after player clicked on dot
   socket.on('playerMadeTurn', function(data){
     console.log('\t socket.io:: previous player data : ' + JSON.stringify(data));
+    io.sockets.emit('addEnemyPoint', {enemy:data, player:usersID[playerTurn], playerHero:possibleHeroes[playerTurn] });
     playerTurn = playerTurn === 0 ? 1 : 0;
     var enemyData = data || {};
-    var turnDAta = { 
-                    player: { id : usersID[playerTurn] }, 
+    var turnDAta = {
+                    player: { id : usersID[playerTurn] },
                     enemy: enemyData
                     };
     io.sockets.emit('startTurn', turnDAta);

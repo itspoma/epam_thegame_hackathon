@@ -194,10 +194,12 @@ app.helpers = {
                                 var _el = $('.filled_now_'+i);
                                 var _nextEl = $('.filled_now_'+(i+1)).length>0 ? $('.filled_now_'+(i+1)) : $('.filled_now_0');
 
-                                var ax = _el.position().left+38;
-                                var ay = _el.position().top+38;
-                                var bx = _nextEl.position().left+38;
-                                var by = _nextEl.position().top+38;
+                                var ax = _el.position().left+38 + $('#container').offset().left;
+                                var ay = _el.position().top+38 + $('#container').offset().top;
+                                var bx = _nextEl.position().left+38 + $('#container').offset().left;
+                                var by = _nextEl.position().top+38 + $('#container').offset().top;
+
+                                console.log(ax,ay);
 
                                 linedraw(ax,ay, bx,by);
                             };
@@ -250,6 +252,10 @@ app.helpers = {
 
         return false;
     }
+};
+
+app.reset_game = function() {
+  alert(1);
 };
 
 app.binders = {
