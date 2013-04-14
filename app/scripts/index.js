@@ -28,6 +28,16 @@ $(function(){
     },
 
     bindEvents: function() {
+      $('.sound').bind('click', function(){
+        if($(this).hasClass('disabled')){
+          $(this).removeClass('disabled');
+          Howler.unmute();
+        } else {
+          $(this).addClass('disabled');
+          Howler.mute();
+        }
+      });
+
       var cachedEls = this.cachedEls;
       //Launch connection process
       cachedEls.$play.on('click', function() { cachedEls.$body.trigger('connect'); });
@@ -167,19 +177,33 @@ $(function(){
         );
       },
 
-      showWinnerMessage: function(){
+      showRoundWinnerMessage: function(){
         this.showMessage(
           '<h1>Woohoo!</h1>'+
           '<p>You won the round!</p>'+
-          '<p><input type="image" src="../img/continue.png"></p>'
+          '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
         );
       },
 
-      showLoserMessage: function(){
+      showGameWinnerMessage: function(){
+        this.showMessage(
+          '<h1>Woohoo!</h1>'+
+            '<p>You won the GAME!</p>'
+        );
+      },
+
+      showRoundLoserMessage: function(){
         this.showMessage(
           '<h1>Damn!</h1>'+
-          '<p>Let\'s try new round!</p>'+
-          '<p><input type="image" src="../img/continue.png"></p>'
+            '<p>Let\'s try new round!</p>'+
+            '<p><input class="game-reset" onclick="app.helpers.resetGame()" type="image" src="../img/continue.png"></p>'
+        );
+      },
+
+      showGameLoserMessage: function(){
+        this.showMessage(
+          '<h1>Damn!</h1>'+
+            '<p>You lose.</p>'
         );
       },
 
@@ -204,31 +228,26 @@ $(function(){
     },
 
     sounds: {
-      playLoginSound: function(){
-        this.playSound();
-      },
-
       playGameSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/sound2.ogg', '../sounds/sound2.mp3'], loop: true});
       },
 
       playWinnerSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/horn.ogg', '../sounds/horn.mp3']});
       },
 
       playPlayer1PolygonSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/sheep.ogg', '../sounds/sheep.mp3']});
       },
 
       playPlayer2PolygonSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/wolf.ogg', '../sounds/wolf.mp3']});
       },
 
-      playSound: function(){
+      playSound: function(params){
         var sound = new Howl({
-          urls: ['../sounds/sound1.ogg', '../sounds/sheep.mp3']
-          //urls: ['../sounds/sound2.ogg']
-          //volume: 0.5
+          urls: params.urls,
+          loop: params.loop || false
         }).play();
       }
     },
@@ -267,6 +286,10 @@ $(function(){
             '<div class="cloud x5"></div>').attr('id', "clouds");
 
         $('.wrapper').before(div);
+      },
+
+      resetGame: function(){
+
       },
 
       updateScore: function(player1Score, player2Score){
@@ -508,7 +531,7 @@ $(function(){
     pages: {
       login: {
         initPage: function() {
-          app.sounds.playLoginSound();
+          app.sounds.playGameSound();
         }
       },
       lobby: {

@@ -156,11 +156,14 @@ table span.wolf.filled:hover {
 
 /* sound icon */
 .sound {
+	bottom: 20px;
 	display: block;
   background: url('../img/sound.png') no-repeat top left;
 	height: 43px;
 	width: 35px;
 	opacity: .8;
+	position: absolute;
+	right: 20px;
 }
 
 .sound:hover {
@@ -171,23 +174,26 @@ table span.wolf.filled:hover {
 	background-position: -35px 0;
 }
 
-.login .sound {
-	position: absolute;
-	right: 55px;
-	top: 0px;
-}
-
-#container .sound {
-	bottom: 10px;
-	position: absolute;
-	right: -50px;
-}
-
 /* responsive styles */
-@media all and (max-width: 1200px) {
+@media all and (max-width: 900px) {
   .player {
-    width: 150px;
-  }
+    width: 75px;
+  }	
+	.player .avatar {
+		height: 75px;
+		width: 75px;
+		background-size: 150px 75px;
+	}
+	.player.wolf .avatar {
+		background-position: -75px 0;
+	}
+	.player h5 {
+		font-size: 22px;
+	}	
+	.player p {
+		font-size: 60px;
+		margin: 0;
+	}
 	#container {
 		width: 330px;
 	}
