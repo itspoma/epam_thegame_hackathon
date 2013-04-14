@@ -273,29 +273,30 @@ $(function(){
 
     sounds: {
       playGameSound: function(){
-        this.playSound({urls:['../sounds/sound2.ogg', '../sounds/sound2.mp3'], loop: true});
+        this.playSound({urls:['../sounds/sound2.ogg', '../sounds/sound2.mp3'], loop: true, volume: 0.7});
       },
 
       playWinnerSound: function(){
-        this.playSound({urls:['../sounds/horn.ogg', '../sounds/horn.mp3']});
+        this.playSound({urls:['../sounds/horn.ogg', '../sounds/horn.mp3'], volume: 1.0});
       },
 
       playFailSound: function(){
-        this.playSound({urls:['../sounds/fail.ogg', '../sounds/fail.mp3']});
+        this.playSound({urls:['../sounds/fail.ogg', '../sounds/fail.mp3'], volume: 1.0});
       },
 
       playPlayer1PolygonSound: function(){
-        this.playSound({urls:['../sounds/sheep.ogg', '../sounds/sheep.mp3']});
+        this.playSound({urls:['../sounds/sheep.ogg', '../sounds/sheep.mp3'], volume: 1.0});
       },
 
       playPlayer2PolygonSound: function(){
-        this.playSound({urls:['../sounds/wolf.ogg', '../sounds/wolf.mp3']});
+        this.playSound({urls:['../sounds/wolf.ogg', '../sounds/wolf.mp3'], volume: 1.0});
       },
 
       playSound: function(params){
         var sound = new Howl({
           urls: params.urls,
-          loop: params.loop || false
+          loop: params.loop || false,
+          volume: params.volume
         }).play();
       }
     },
