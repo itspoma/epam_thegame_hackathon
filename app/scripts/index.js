@@ -18,6 +18,16 @@ $(function(){
     },
 
     bindEvents: function() {
+      $('.sound').bind('click', function(){
+        if($(this).hasClass('disabled')){
+          $(this).removeClass('disabled');
+          Howler.unmute();
+        } else {
+          $(this).addClass('disabled');
+          Howler.mute();
+        }
+      });
+
       var cachedEls = this.cachedEls;
       //Launch connection process
       cachedEls.$play.on('click', function() { cachedEls.$body.trigger('connect'); });
