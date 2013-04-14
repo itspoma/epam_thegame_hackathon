@@ -58,6 +58,14 @@ body {
 	background-position: -150px 0;
 }
 
+.player.sheep.active .avatar {
+	background-position: -300px 0;
+}
+
+.player.wolf.active .avatar {
+	background-position: -450px 0;
+}
+
 .player h5 {
 	margin: 0px;
 	font-size: 36px;
