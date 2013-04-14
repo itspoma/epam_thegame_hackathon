@@ -58,11 +58,11 @@ body {
 	background-position: -150px 0;
 }
 
-.player.sheep.active .avatar {
+.sheep.active .avatar {
 	background-position: -300px 0;
 }
 
-.player.wolf.active .avatar {
+.wolf.active .avatar {
 	background-position: -450px 0;
 }
 
