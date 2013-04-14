@@ -6,7 +6,7 @@ $(function(){
       this.cachedEls.initCache();
       this.helpers.drawTable();
       this.bindEvents();
-      app.initDummy();
+      app.pages.login.initPage();
     },
 
     initDummy: function() {
@@ -19,11 +19,6 @@ $(function(){
 
     bindEvents: function() {
       var cachedEls = this.cachedEls;
-      $('#container table td span').on('click', function(){
-        var x = $(this).attr('data-x');
-        var y = $(this).attr('data-y');
-        app.helpers.makeTurn(x, y);
-      });
       //Launch connection process
       cachedEls.$play.on('click', function() { cachedEls.$body.trigger('connect'); });
       //Connect two players through lobby
@@ -35,6 +30,7 @@ $(function(){
 
         app.properties.socket.on('connected', function(client) {
           app.properties.userId = client.id;
+          app.properties.hero = client.hero;
           console.log(client.id + ' is connected');
         });
         app.properties.socket.on('gameReadyStatus', function(gameIsReady) {
@@ -47,12 +43,26 @@ $(function(){
             app.pages.lobby.initPage();
           }
         });
-        app.properties.socket.on('startTurn', function(gameData){
-          var playerTurnID = gameData.player.id;
-          console.log('TURN STARTED: player turn - ' + playerTurnID);
-          if(app.properties.userId === playerTurnID) {
-            setTimeout( function() { app.helpers.makeTurn(); }, 5000);
+        app.properties.socket.on('startTurn', function(gameData) {
+          app.properties.currentGameData = gameData;
+          app.properties.currentUser = gameData.player.id;
+          console.log('TURN STARTED: player turn - ' + app.properties.currentUser);
+          if (app.properties.userId === app.properties.currentUser) {
+            $('table td').filter(function() {
+              return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
+            }).click();
+            var x,y = '';
+            setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
+          } else if (app.properties.userId !== app.properties.currentUser) {
+            // console.log(
+            //   $('table td').filter(function() {
+            //     return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
+            //   })
+            // );
           }
+        });
+        app.properties.socket.on('enemyLeftGame', function() {
+          //Show error popup
         });
       });
       $('table td', cachedEls.$container).on('click', app.binders.onPointClick);
@@ -60,30 +70,34 @@ $(function(){
 
     binders: {
       onPointClick: function(){
-        var $td = $(this);
 
+        console.log(app.properties.currentGameData, 'currentGameData');
+        if (app.properties.userId !== app.properties.currentUser) {
+          console.log('Its not your turn');
+          return false;
+        }
+
+        var $td = $(this);
         var x = $td.data('x');
         var y = $td.data('y');
 
+        console.log(x);
+        console.log(y);
+
         var pointData = app.helpers.getPointData(x,y);
+        console.log(pointData);
         if (pointData !== null) {
             alert(pointData.user);
             return;
         }
 
-        var userData = app.helpers.getUserData(app.userTurn);
+        var userData = app.helpers.getUserData(app.properties.userId);
 
-        $('span',$td).addClass(userData.hero);
-        app.helpers.addPoint(x, y, userData.id);
-
-        app.helpers.calculatePolygon(x, y, userData.id);
-
-        if (app.userTurn == 1) {
-          app.userTurn = 2;
-        }
-        else {
-          app.userTurn = 1;
-        }
+        $('span',$td).addClass(app.properties.hero);
+        app.helpers.addPoint(x, y, app.properties.userId);
+        console.log(app.properties.currentGameData.enemy.id);
+        app.helpers.calculatePolygon(x, y, app.properties.currentGameData.enemy.id);
+        app.helpers.makeTurn(x,y,hero);
       }
     },
 
@@ -103,34 +117,56 @@ $(function(){
     userTurn: null,
     settings: {
       boardWidth: 10,
-      boardHeight: 7
+      boardHeight: 7,
+      winnerLimit: 5
     },
 
     properties: {
       currentPage: $('section[id^="pagename-"]').filter(function () { return $(this).hasClass('active'); }),
+      currentGameData: null,
+      currentUser: null,
       socket: '',
-      userId: ''
+      userId: '',
+      hero: ''
     },
 
     messages: {
       showWaitingPlayerMessage: function(){
-        this.showPopup();
+        this.showMessage(
+          '<p style="margin-top: 55px">Waiting for another player...</p>'+
+          '<p><img src="../img/loader2.gif"></p>'
+        );
       },
 
       showWinnerMessage: function(){
-        this.showPopup();
+        this.showMessage(
+          '<h1>Woohoo!</h1>'+
+          '<p>You won the game!</p>'+
+          '<p><input type="image" src="../img/again.png"></p>'
+        );
       },
 
       showLoserMessage: function(){
-        this.showPopup();
+        this.showMessage(
+          '<h1>Damn!</h1>'+
+          '<p>Let\'s Try Again!</p>'+
+          '<p><input type="image" src="../img/again.png"></p>'
+        );
       },
 
-      showErrorConnection: function(){
-        this.showPopup();
+      showErrorConnectionMessage: function(){
+        this.showMessage('');
       },
 
-      showPopup: function(){
-        $('#myModal').reveal();
+      showMessage: function(html){
+        $('.reveal-modal').html(html);
+        $('.reveal-modal').reveal();
+      },
+
+      hideMessage: function(){
+        $('.reveal-modal').empty();
+        $('.reveal-modal').hide();
+        $('.reveal-modal-bg').hide();
       }
     },
 
@@ -157,8 +193,9 @@ $(function(){
 
       playSound: function(){
         var sound = new Howl({
-          urls: ['../sounds/sheep.wav', '../sounds/sheep.wav', '../sounds/sheep.wav'],
-          volume: 0.5
+          //urls: ['../sounds/sound1.mp3', '../sounds/sheep.ogg', '../sounds/sound1.wav'],
+          urls: ['../sounds/sound2.ogg']
+          //volume: 0.5
         }).play();
       }
     },
@@ -182,8 +219,8 @@ $(function(){
         );
       },
 
-      makeTurn: function(xIndex, yIndex) {
-        var data = { x : xIndex, y : yIndex };
+      makeTurn: function(xIndex, yIndex, hero) {
+        var data = { point: {x : xIndex, y : yIndex}, hero: hero };
         app.properties.socket.emit('playerMadeTurn', data);
         console.log('TURN ENDED');
       },
@@ -204,6 +241,10 @@ $(function(){
         var p2Score = $("#player2Info .score");
         p1Score.text(parseInt(p1Score.text()) + parseInt(player2Score));
         p2Score.text(parseInt(p2Score.text()) + parseInt(player1Score));
+
+        if(player1Score >= app.settings.winnerLimit){
+
+        }
       },
 
       updateTimer: function() {},
@@ -213,7 +254,7 @@ $(function(){
       },
 
       drawTable: function() {
-        var $container = app.cachedEls.$container;
+        var $container = $('#container');//app.cachedEls.$container;
         $container.append($('<table/>'));
 
         // append <tr></tr>
@@ -238,9 +279,7 @@ $(function(){
 
       getPointData: function(x,y) {
         var data = app.points[x+':'+y];
-        if (typeof(data) === 'undefined') {
-            return null;
-        }
+        if (typeof(data) === 'undefined') { return null; }
 
         data.$td = $('td', $('tr').eq(x-1)).eq(y-1);
 
@@ -474,18 +513,21 @@ $(function(){
 
     pages: {
       login: {
-        initPage: function() {}
+        initPage: function() {
+          app.sounds.playLoginSound();
+        }
       },
       lobby: {
         initPage: function() {
           app.helpers.switchPageTo(app.cachedEls.$lobby);
+          app.messages.showWaitingPlayerMessage();
         }
       },
       game: {
         initPage: function() {
+          app.messages.hideMessage();
           app.helpers.switchPageTo(app.cachedEls.$game);
           app.helpers.initClouds();
-//          $('#myModal').reveal();
         }
       }
     }

@@ -17,15 +17,18 @@
     <div class="wrapper">
       <section id="pagename-login" class="login active">
         <input type="image" src="img/play.png" class="btn play">
+        <a href="#" title="Music"><span class="sound"></span></a>
       </section>
-      <section id="pagename-lobby" class="lobby reveal-modal-bg"></section>
+      <section id="pagename-lobby" class="lobby"></section>
       <section id="pagename-game" class="game">
         <div class="player sheep" id="player1Info">
           <div class="avatar timer"></div>
           <h5>Sheep</h5>
           <p class="score">0</p>
         </div>
-        <div id="container"></div>
+        <div id="container">
+        	<a href="#" title="Music"><span class="sound"></span></a>
+        </div>
         <div class="player wolf" id="player2Info">
           <div class="avatar timer"></div>
           <h5>Wolf</h5>
@@ -33,26 +36,12 @@
         </div>
       </section>
     </div>
-
-    <!--div id="myModal" class="reveal-modal">
-      <h1>Woohoo!</h1>
-      <p>You won the game!</p>
-      <p><input type="image" src="img/again.png"></p>
-    </div-->
-
-		<!--div id="myModal" class="reveal-modal">
-      <h1>Damn!</h1>
-      <p>Let's Try Again!</p>
-      <p><input type="image" src="img/again.png"></p>
-    </div-->
     
-    <div id="myModal" class="reveal-modal">      
-      <p style="margin-top: 55px">Waiting for another player...</p>
-      <p><img src="img/loader.gif"></p>
-    </div>
+    <div class="reveal-modal"></div>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.reveal.js"></script>
+    <script type="text/javascript" src="scripts/howler.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
     <script type="text/javascript" src="scripts/timer.js"></script>

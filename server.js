@@ -1,7 +1,7 @@
 var express = require('express'),
     UUID    = require('node-uuid'),
     app     = express(),
-    port    = parseInt(process.env.PORT, 10) || 3000,
+    port    = parseInt(process.env.PORT, 10) || 5001,
     http    = require('http'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server, { log: false });
@@ -27,9 +27,11 @@ app.get("/", function(req, res) {
 });
 
 //keep clients
-var users = [],
+var users = {},
+  usersID = [],
   playersCape = 2,
-  playerTurn = 0;
+  playerTurn = 0,
+  possibleHeroes = ['wolf', 'sheep'];
 // init SOCKETS listening for connection
 // add user UID to maintain list of users
 io.sockets.on('connection', function(socket) {
@@ -38,48 +40,72 @@ io.sockets.on('connection', function(socket) {
   //and store this on their socket/connection
   var user = {};
   user.id = UUID();
+  //mock up character
+  user.hero = possibleHeroes[getObjLength(users)];
   //save in db
-  users.push(user);
-
+  users[user.id] = user;
+  usersQuantity = getObjLength(users);
+  //we use usersID array to switch turns as a fast workaround
+  usersID.push(user.id);
+  //glocals for user
+  var isGameReady = false;
+  var allAreReady = true;
   //EMITERS
   //tell the player they are connected giving them their ID
   socket.emit('connected', user);
-  console.log('\t socket.io:: client connected ' + user.id);
+  console.log('\t socket.io:: client connected ' + JSON.stringify(user));
 
   //connection status: alone or have someone to play with?
-  var isGameReady = false;
-  if(users.length > playersCape - 1) isGameReady = true;
+  //console.log(JSON.stringify(users), '\n USERS quantity : ' + usersQuantity);
+  if(usersQuantity > playersCape - 1) isGameReady = true;
   //send game readiness status to ALL clients
   io.sockets.emit('gameReadyStatus', isGameReady);
 
   //LISTENERS
   //after all rendering, animations etc
   socket.on('clientReadyForGame', function(client){
-    console.log('CLIENT IS READY FOR GAME: id - ' + client.id);
-    var allAreReady = true;
+    //console.log('CLIENT IS READY FOR GAME: id - ' + client.id);    
     //set ready to our user
-    users.forEach(function(user){
-      if(user.id === client.id) user.isReadyForGame = true;
-    });
+    users[client.id].isReadyForGame = true;
     //check all users for readiness
-    users.forEach(function(user){
-      if(! user.isReadyForGame) allAreReady = false
-    });
+    for (var key in users){
+      //console.log('CHECK if all are ready : ' + allAreReady);
+      if( ! users[key].isReadyForGame) allAreReady = false;
+      //console.log('CHECK if all are ready : ' + allAreReady);
+    }
     //emit to ALL that all are ready and game should start
     if(allAreReady){
-      io.sockets.emit('startTurn', {player: users[playerTurn]});
-    };
+      console.log('ALL ARE READY - START TURN: ' + usersID[playerTurn]);
+      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn] }, enemy: {} } );
+    }; //else w8 for another player to be ready
   });
   //after player clicked on dot
   socket.on('playerMadeTurn', function(data){
+    console.log('\t socket.io:: previous player data : ' + JSON.stringify(data));
     playerTurn = playerTurn === 0 ? 1 : 0;
-    io.sockets.emit('startTurn', {player: users[playerTurn]});
-    console.log('TURN STARTED: player turn - ' + users[playerTurn]);
+    var enemyData = data || {};
+    var turnDAta = { 
+                    player: { id : usersID[playerTurn] }, 
+                    enemy: enemyData
+                    };
+    io.sockets.emit('startTurn', turnDAta);
+    console.log('TURN STARTED: player turn - ' + usersID[playerTurn]);
   });
   //When this client disconnects
   socket.on('disconnect', function () {
     //Useful to know when someone disconnects
-    console.log('\t socket.io:: client disconnected ' + client.id );
-    //and mb do smthing with it
+    console.log('\t socket.io:: client disconnected ' + user.id );
+    //remove him from users list
+    delete users[user.id];
+    console.log('\t socket.io:: remaining users are notified ' + JSON.stringify(users) );
+    //reset ready flag
+    isGameReady = false;
+    //send to his enemy notificatio
+    socket.broadcast.emit('enemyLeftGame');
   });
 });
+
+//utils
+function getObjLength(obj){
+  return Object.keys(obj).length;
+}
