@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket) {
     //emit to ALL that all are ready and game should start
     if(allAreReady){
       console.log('ALL ARE READY - START TURN: ' + usersID[playerTurn]);
-      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn] } } );
+      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn] }, enemy: { point : {} } } );
     }; //else w8 for another player to be ready
   });
   //after player clicked on dot
