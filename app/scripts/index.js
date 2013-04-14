@@ -43,12 +43,16 @@ $(function(){
           }
         });
         app.properties.socket.on('startTurn', function(gameData){
+          console.log(gameData);
           app.properties.currentGameData = gameData;
           var playerTurnID = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + playerTurnID);
           if(app.properties.userId === playerTurnID) {
             setTimeout( function() { app.helpers.makeTurn(); }, 5000);
           }
+        });
+        app.properties.socket.on('enemyLeftGame', function() {
+          //Show error popup
         });
       });
       $('table td', cachedEls.$container).on('click', app.binders.onPointClick);
