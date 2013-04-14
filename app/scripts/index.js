@@ -46,20 +46,19 @@ $(function(){
         app.properties.socket.on('startTurn', function(gameData) {
           app.properties.currentGameData = gameData;
           app.properties.currentUser = gameData.player.id;
-          var playerTurnID = gameData.player.id;
-          console.log('TURN STARTED: player turn - ' + playerTurnID);
-          if (app.properties.userId === playerTurnID) {
-            var x,y = '';
-            setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
-          } else if (app.properties.userId !== playerTurnID && gameData.enemy.point) {
-            console.log(
-              $('table td').filter(function() {
-                return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
-              })
-            );
+          console.log('TURN STARTED: player turn - ' + app.properties.currentUser);
+          if (app.properties.userId === app.properties.currentUser) {
             $('table td').filter(function() {
               return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
             }).click();
+            var x,y = '';
+            setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
+          } else if (app.properties.userId !== app.properties.currentUser) {
+            // console.log(
+            //   $('table td').filter(function() {
+            //     return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
+            //   })
+            // );
           }
         });
         app.properties.socket.on('enemyLeftGame', function() {
@@ -73,7 +72,7 @@ $(function(){
       onPointClick: function(){
 
         console.log(app.properties.currentGameData, 'currentGameData');
-        if (app.properties.currentGameData.player.id !== app.properties.userId) {
+        if (app.properties.userId !== app.properties.currentUser) {
           console.log('Its not your turn');
           return false;
         }
