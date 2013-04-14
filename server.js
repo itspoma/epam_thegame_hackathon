@@ -30,7 +30,8 @@ app.get("/", function(req, res) {
 var users = {},
   usersID = [],
   playersCape = 2,
-  playerTurn = 0;
+  playerTurn = 0,
+  possibleHeroes = ['wolf', 'sheep'];
 // init SOCKETS listening for connection
 // add user UID to maintain list of users
 io.sockets.on('connection', function(socket) {
@@ -39,9 +40,11 @@ io.sockets.on('connection', function(socket) {
   //and store this on their socket/connection
   var user = {};
   user.id = UUID();
+  //mock up character
+  user.hero = possibleHeroes[getObjLength(users)];
   //save in db
   users[user.id] = user;
-  usersQuantity = Object.keys(users).length;
+  usersQuantity = getObjLength(users);
   //we use usersID array to switch turns as a fast workaround
   usersID.push(user.id);
   //glocals for user
@@ -50,10 +53,10 @@ io.sockets.on('connection', function(socket) {
   //EMITERS
   //tell the player they are connected giving them their ID
   socket.emit('connected', user);
-  console.log('\t socket.io:: client connected ' + user.id);
+  console.log('\t socket.io:: client connected ' + JSON.stringify(user));
 
   //connection status: alone or have someone to play with?
-  console.log(JSON.stringify(users), '\n USERS quantity : ' + usersQuantity);
+  //console.log(JSON.stringify(users), '\n USERS quantity : ' + usersQuantity);
   if(usersQuantity > playersCape - 1) isGameReady = true;
   //send game readiness status to ALL clients
   io.sockets.emit('gameReadyStatus', isGameReady);
@@ -61,12 +64,12 @@ io.sockets.on('connection', function(socket) {
   //LISTENERS
   //after all rendering, animations etc
   socket.on('clientReadyForGame', function(client){
-    console.log('CLIENT IS READY FOR GAME: id - ' + client.id);    
+    //console.log('CLIENT IS READY FOR GAME: id - ' + client.id);    
     //set ready to our user
     users[client.id].isReadyForGame = true;
     //check all users for readiness
     for (var key in users){
-      console.log('CHECK if all are ready : ' + allAreReady);
+      //console.log('CHECK if all are ready : ' + allAreReady);
       if( ! users[key].isReadyForGame) allAreReady = false;
       //console.log('CHECK if all are ready : ' + allAreReady);
     }
@@ -100,3 +103,8 @@ io.sockets.on('connection', function(socket) {
     socket.broadcast.emit('enemyLeftGame');
   });
 });
+
+//utils
+function getObjLength(obj){
+  return Object.keys(obj).length;
+}
