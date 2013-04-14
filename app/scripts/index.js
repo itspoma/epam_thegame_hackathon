@@ -164,7 +164,6 @@ $(function(){
     },
 
     helpers: {
-
       switchPageTo: function(selector) {
         var nextPage = selector;
         var currentPage = app.properties.currentPage;
