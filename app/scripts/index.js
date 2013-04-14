@@ -126,23 +126,35 @@ $(function(){
 
     messages: {
       showWaitingPlayerMessage: function(){
-        this.showPopup();
+        this.showPopup(
+          '<p style="margin-top: 55px">Waiting for another player...</p>'+
+          '<p><img src="../img/loader.gif"></p>'
+        );
       },
 
       showWinnerMessage: function(){
-        this.showPopup();
+        this.showPopup(
+          '<h1>Woohoo!</h1>'+
+          '<p>You won the game!</p>'+
+          '<p><input type="image" src="../img/again.png"></p>'
+        );
       },
 
       showLoserMessage: function(){
-        this.showPopup();
+        this.showPopup(
+          '<h1>Damn!</h1>'+
+          '<p>Let\'s Try Again!</p>'+
+          '<p><input type="image" src="../img/again.png"></p>'
+        );
       },
 
       showErrorConnection: function(){
-        this.showPopup();
+        this.showPopup('');
       },
 
-      showPopup: function(){
-        $('#myModal').reveal();
+      showPopup: function(html){
+        $('.reveal-modal').html(html);
+        $('.reveal-modal').reveal();
       }
     },
 
@@ -495,7 +507,6 @@ $(function(){
         initPage: function() {
           app.helpers.switchPageTo(app.cachedEls.$game);
           app.helpers.initClouds();
-//          $('#myModal').reveal();
         }
       }
     }
