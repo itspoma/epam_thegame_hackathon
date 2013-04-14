@@ -79,11 +79,19 @@ table td {
 div.connect_line {
     display: block;
     position: absolute;
-    background: url(../img/rope-red.png) repeat;
     height: 10px;
     width: 75px;
     z-index: 1;
+}
+.connect_line.type_sheep {
+    background: url(../img/rope-green.png) repeat;
+    box-shadow: green 0px 0px 35px 7px;
+    background-color: green;
+}
+.connect_line.type_wolf {
+    background: url(../img/rope-red.png) repeat;
     box-shadow: red 0px 0px 35px 7px;
+    background-color: red;
 }
 
 table span {
