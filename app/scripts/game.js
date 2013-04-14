@@ -176,110 +176,67 @@ app.helpers = {
                         {
                             console.log(__pre+'WO-HO-HO !!!!!!!!!!!!!!!!!!!!', x,y,point,params);
 
-                            params.pointsPath.push(params.startPoint);
+                            // params.pointsPath.push(params.startPoint);
 
                             console.log('ENEMIES IN BOX', enemiesInsidePoints.length);
+
+                            for (var i=0; i<=params.pointsPath.length-1; i++) {
+                                var _point = params.pointsPath[i];
+
+                                var _pointData = app.helpers.getPointData(_point.x, _point.y);
+
+                                _pointData.$td.addClass('filled_now filled_now_'+i);
+                                $('span',_pointData.$td).addClass('filled');
+                            }
+
+                            els = $('.filled_now');
+                            for (var i=0; i<=els.length-1; i++) {
+                                var _el = $('.filled_now_'+i);
+                                var _nextEl = $('.filled_now_'+(i+1)).length>0 ? $('.filled_now_'+(i+1)) : $('.filled_now_0');
+
+                                var ax = _el.position().left+38;
+                                var ay = _el.position().top+38;
+                                var bx = _nextEl.position().left+38;
+                                var by = _nextEl.position().top+38;
+
+                                linedraw(ax,ay, bx,by);
+                            };
+
+                            $('.connect_line:not(.processed)').hide();
+                            $('.connect_line:not(.processed)').each(function(){
+                              $(this).addClass('processed').slideToggle('slow');
+                            });
+
+                            // $('.connect_line').slideToggle('slow')
+
+                            $('.filled_now').each(function(){
+                              $(this).attr('class',  $(this).attr('class').replace(/filled_now_\d+/,'')   );
+                            });
 
                             // mark captured enemies
                             for (var i = 0, enemiesInsidePoint; enemiesInsidePoint = enemiesInsidePoints[i]; i++) {
                                 var pointData = app.helpers.getPointData(enemiesInsidePoint.x, enemiesInsidePoint.y);
                                 app.points[pointData.x+':'+pointData.y].captured = true;
+
                                 var $span = $('span', pointData.$td);
 
-                                (function($span) {
-                                  $span.css({'position':'absolute', 'margin-top':'-40px','z-index':999})
-                                  $span.animate({zoom:app.helpers.rand(2,3),'margin-left':-40},'slow', function(){
-                                    $span.animate({zoom:1,'margin-left':0},'fast');
-
-                                    $span.animate({opacity:0.3},'slow',function(){
-                                      $span.addClass('captured');
-                                    });
+                                (function(el) {
+                                  $span.animate({opacity:0.4},400,function(){
+                                    $span.addClass('captured');
                                   });
                                 })($span);
                             }
 
-                            for (var i=0; i<=params.pointsPath.length-1; i++) {
-                                var _point = params.pointsPath[i];
-
-                                var $td = $('td', $('tr').eq(_point.x-1)).eq(_point.y-1);
-                                $('span',$td).addClass('filled');
-
-                                if ($('i.connected',$td).length==0) {
-                                  $td.prepend($('<i/>').attr('class','connected'));
-                                }
-                                $i = $('i.connected',$td);
-
-                                (function($i){
-                                  $i.hide();
-                                  setTimeout(function(){
-                                    $i.fadeIn('slow');//slideDown
-                                  },50);
-                                })($i);
-
-                                var _nextPoint = params.pointsPath[i+1];
-                                if (typeof(_nextPoint)=='undefined') {
-                                  _nextPoint = params.pointsPath[0];
-                                }
-
-                                if (_nextPoint.x==_point.x && _nextPoint.y<_point.y) {
-                                  $i.addClass('connect_left');
-                                }
-
-                                else if (_nextPoint.x==_point.x && _nextPoint.y>_point.y) {
-                                  $i.addClass('connect_right');
-                                }
-
-                                else if (_nextPoint.x>_point.x && _nextPoint.y<_point.y) {
-                                  $i.addClass('connect_bottomleft');
-                                }
-
-                                else if (_nextPoint.x>_point.x && _nextPoint.y>_point.y) {
-                                  $i.addClass('connect_bottomright');
-                                }
-
-                                else if (_nextPoint.x<_point.x && _nextPoint.y>_point.y) {
-                                  $i.addClass('connect_topright');
-                                }
-
-                                else if (_nextPoint.x<_point.x && _nextPoint.y<_point.y) {
-                                  $i.addClass('connect_topleft');
-                                }
-
-                                else if (_nextPoint.x<_point.x && _nextPoint.y==_point.y) {
-                                  $i.addClass('connect_bottom');
-                                }
-
-                                else if (_nextPoint.x>_point.x && _nextPoint.y==_point.y) {
-                                  $i.addClass('connect_bottom');
-                                }
-
-                                // else if (_nextPoint.x==_point.x && _nextPoint.y==_point.y) {
-                                //   $i.addClass('connect_temp');//!!
-                                // }
-
-                                else {
-                                  console.log($td);
-                                  console.log('_point',_point.x,_point.y);
-                                  console.log('_nextPoint',_nextPoint.x,_nextPoint.y);
-                                }
-
-                                console.log($td, $i.attr('class'));
-                                console.log('');
-                            }
-
-                            return;
+                            return true;
                         }
                     }
                 }
                 else {
-                    // console.log(__pre+'FIND ',point.x+':'+point.y);
-
                     if ($.inArray(point.x+':'+point.y, params.excludes) === -1)
                     {
                         var path = params.pointsPath;
                             path.push(point);
 
-                        //weight += 1 +
                         arguments.callee(point.x, point.y, uid, {
                             depth: params.depth+1,
                             excludes: params.excludes,
@@ -290,6 +247,8 @@ app.helpers = {
                 }
             }
         }
+
+        return false;
     }
 };
 
@@ -331,22 +290,58 @@ app.bindEvents = function() {
 //
 app.init = function() {
     $('.login').hide();
+    $('.game').show().css({opacity:1,left:0});
     app.helpers.drawTable();
-    timer.start('player2Info', function(){
-      alert('Finished counting down');
-    });
+    // timer.start('player2Info', function(){
+    //   alert('Finished counting down');
+    // });
     app.bindEvents();
+
+    // rand hero's animation
+    setInterval(function(){
+       $els = app.helpers.rand(1,2) == 1 ? $('.wolf:not(.hover)') : $('.sheep:not(.hover)');
+       $el = $els.eq(app.helpers.rand(0,$els.length-1));
+       (function(){
+          $el.addClass('hover');
+          setTimeout(function(){$el.removeClass('hover')},100);
+       })($el);
+    }, 300);
 };
 
 //
 app.initDummy();
 app.init();
 
-//
-// Object.prototype.keys = function() {
-//     var keys = [];
-//     for(var i in this) if (this.hasOwnProperty(i)) {
-//         keys.push(i);
-//     }
-//     return keys;
-// };
+function linedraw(ax,ay,bx,by)
+{
+    var _id = "line_"+ax+"_"+ay+"_"+bx+"_"+by;
+    if(ay>by)
+    {
+        bx=ax+bx;
+        ax=bx-ax;
+        bx=bx-ax;
+        by=ay+by;
+        ay=by-ay;
+        by=by-ay;
+    }
+    var calc=Math.atan((ay-by)/(bx-ax));
+    calc=calc*180/Math.PI;
+    var length=Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
+
+    if (ax == bx) {
+      calc = 0;
+      ay += 50;
+    }
+    if (ay == by) {
+        if (ax<bx) {
+          calc = 270;
+        }
+        else {
+          calc = 90;
+        }
+    }
+
+    var userData = app.helpers.getUserData(app.userTurn);
+
+    document.body.innerHTML += "<div class='connect_line type_"+userData.hero+"' id='"+_id+"' style='height:" + length + "px;width:8px;position:absolute;top:" + (ay) + "px;left:" + (ax) + "px;-webkit-transform:rotate("+calc+"deg);-webkit-transform-origin:0% 0%;'></div>";
+}
