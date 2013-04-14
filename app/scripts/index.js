@@ -52,6 +52,11 @@ $(function(){
           app.properties.userId = client.id;
           app.properties.hero = client.hero;
           console.log(client.id + ' is connected');
+
+          // console.log($('.player.'+app.properties.hero));
+          // console.log($('.player:not(.active)'));
+          $('.player.'+app.properties.hero).find('h5').after('<div class="hand '+(app.properties.hero=='wolf'?'hand_right':'hand_left')+'"></div>');
+          // $('.player:not(.active)').find('h5').after('<div class="hand hand_disabled"></div>');
         });
         app.properties.socket.on('gameReadyStatus', function(gameIsReady) {
           if (gameIsReady) {
@@ -167,7 +172,7 @@ $(function(){
         app.helpers.calculatePolygon(x, y, app.properties.userId, function(){
           app.properties.currentUser = app.properties.userId;
           app.sounds.playWinnerSound();
-          
+
           var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
           $scoreEl.text(parseInt($scoreEl.text()) + 1);
 
@@ -179,7 +184,7 @@ $(function(){
             app.messages.hideMessage();
             app.reset_game();
           });
-          
+
 
         });
 

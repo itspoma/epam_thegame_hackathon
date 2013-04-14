@@ -243,3 +243,24 @@ table span.wolf.filled:hover {
 		background-position: -288px -3px;
 	}
 }
+
+.hand {
+	width: 100px;
+	height: 100px;
+	background: url(../img/hand.png) no-repeat;
+	background-size: 86%;
+	position: absolute;
+}
+.hand.hand_right {
+	-webkit-transform: rotate(-16deg);
+	top: 110px;
+	right: 145px;
+}
+.hand.hand_left {
+	-webkit-transform: rotate(-191deg);
+	top: -18px;
+	left: 149px;
+}
+.hand.hand_disabled {
+	opacity: 0;
+}
