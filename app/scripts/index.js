@@ -86,14 +86,20 @@ $(function(){
           app.helpers.calculatePolygon(data.enemy.point.x, data.enemy.point.y, data.player, function(){
               app.properties.currentUser = data.player;
 
+              var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
+              $scoreEl.text(parseInt($scoreEl.text()) + 1);
+
+              if ($scoreEl.text() >= app.settings.winnerLimit ) {
+                app.messages.showGameLoserMessage();
+                return;
+              }
+
               app.messages.showRoundLoserMessage(function(){
                 app.messages.hideMessage();
                 app.reset_game();
               });
               app.sounds.playFailSound();
 
-              var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
-              $scoreEl.text(parseInt($scoreEl.text()) + 1);
           });
         });
 
@@ -160,15 +166,21 @@ $(function(){
 
         app.helpers.calculatePolygon(x, y, app.properties.userId, function(){
           app.properties.currentUser = app.properties.userId;
+          app.sounds.playWinnerSound();
+          
+          var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
+          $scoreEl.text(parseInt($scoreEl.text()) + 1);
 
+          if ($scoreEl.text() >= app.settings.winnerLimit ) {
+            app.messages.showGameWinnerMessage();
+            return;
+          }
           app.messages.showRoundWinnerMessage(function(){
             app.messages.hideMessage();
             app.reset_game();
           });
-          app.sounds.playWinnerSound();
+          
 
-          var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
-          $scoreEl.text(parseInt($scoreEl.text()) + 1);
         });
 
         app.helpers.makeTurn(x,y);
@@ -192,7 +204,7 @@ $(function(){
     settings: {
       boardWidth: 10,
       boardHeight: 7,
-      winnerLimit: 5
+      winnerLimit: 2
     },
 
     properties: {
@@ -230,7 +242,7 @@ $(function(){
 
       showRoundLoserMessage: function(cb){
         this.showMessage(
-          '<h1>Damn!</h1>'+
+          '<br><h1>Damn!</h1>'+
             '<p>Let\'s try new round!</p>'+
             '<p><input class="game-reset" type="image" src="../img/continue.png"></p>'
         );
@@ -239,7 +251,7 @@ $(function(){
 
       showGameLoserMessage: function(){
         this.showMessage(
-          '<h1>Damn!</h1>'+
+          '<br><h1>Damn!</h1>'+
             '<p>You lose.</p>'
         );
       },
@@ -335,17 +347,6 @@ $(function(){
             '<div class="cloud x5"></div>').attr('id', "clouds");
 
         $('.wrapper').before(div);
-      },
-
-      updateScore: function(player1Score, player2Score){
-        var p1Score = $("#player1Info .score");
-        var p2Score = $("#player2Info .score");
-        p1Score.text(parseInt(p1Score.text()) + parseInt(player2Score));
-        p2Score.text(parseInt(p2Score.text()) + parseInt(player1Score));
-
-        if(player1Score >= app.settings.winnerLimit){
-
-        }
       },
 
       updateTimer: function() {},
