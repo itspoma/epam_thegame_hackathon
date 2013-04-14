@@ -8,6 +8,7 @@ $(function(){
       this.bindEvents();
       app.initDummy();
     },
+
     initDummy: function() {
       app.users = {
           1: {id:1, name:'user1', hero:'wolf'},
@@ -15,6 +16,7 @@ $(function(){
       };
       app.userTurn = 1;
     },
+
     bindEvents: function() {
       var cachedEls = this.cachedEls;
       $('#container table td span').on('click', function(){
@@ -55,6 +57,7 @@ $(function(){
       });
       $('table td', cachedEls.$container).on('click', app.binders.onPointClick);
     },
+
     binders: {
       onPointClick: function(){
         var $td = $(this);
@@ -83,6 +86,7 @@ $(function(){
         }
       }
     },
+
     cachedEls: {
       initCache: function() {
         this.$body = $('body');
@@ -101,12 +105,66 @@ $(function(){
       boardWidth: 10,
       boardHeight: 7
     },
+
     properties: {
       currentPage: $('section[id^="pagename-"]').filter(function () { return $(this).hasClass('active'); }),
       socket: '',
       userId: ''
     },
+
+    messages: {
+      showWaitingPlayerMessage: function(){
+        this.showPopup();
+      },
+
+      showWinnerMessage: function(){
+        this.showPopup();
+      },
+
+      showLoserMessage: function(){
+        this.showPopup();
+      },
+
+      showErrorConnection: function(){
+        this.showPopup();
+      },
+
+      showPopup: function(){
+        $('#myModal').reveal();
+      }
+    },
+
+    sounds: {
+      playLoginSound: function(){
+        this.playSound();
+      },
+
+      playGameSound: function(){
+        this.playSound();
+      },
+
+      playWinnerSound: function(){
+        this.playSound();
+      },
+
+      playPlayer1PolygonSound: function(){
+        this.playSound();
+      },
+
+      playPlayer2PolygonSound: function(){
+        this.playSound();
+      },
+
+      playSound: function(){
+        var sound = new Howl({
+          urls: ['../sounds/sheep.wav', '../sounds/sheep.wav', '../sounds/sheep.wav'],
+          volume: 0.5
+        }).play();
+      }
+    },
+
     helpers: {
+
       switchPageTo: function(selector) {
         var nextPage = selector;
         var currentPage = app.properties.currentPage;
@@ -124,11 +182,13 @@ $(function(){
             }
         );
       },
+
       makeTurn: function(xIndex, yIndex) {
         var data = { x : xIndex, y : yIndex };
         app.properties.socket.emit('playerMadeTurn', data);
         console.log('TURN ENDED');
       },
+
       initClouds: function(){
         var div = $('<div>').html(
             '<div class="cloud x1"></div>'+
@@ -139,16 +199,20 @@ $(function(){
 
         $('.wrapper').before(div);
       },
+
       updateScore: function(player1Score, player2Score){
         var p1Score = $("#player1Info .score");
         var p2Score = $("#player2Info .score");
         p1Score.text(parseInt(p1Score.text()) + parseInt(player2Score));
         p2Score.text(parseInt(p2Score.text()) + parseInt(player1Score));
       },
+
       updateTimer: function() {},
+
       rand: function(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       },
+
       drawTable: function() {
         var $container = app.cachedEls.$container;
         $container.append($('<table/>'));
@@ -168,9 +232,11 @@ $(function(){
           }
         }
       },
+
       getUserData: function(uid) {
         return app.users[uid];
       },
+
       getPointData: function(x,y) {
         var data = app.points[x+':'+y];
         if (typeof(data) === 'undefined') {
@@ -181,6 +247,7 @@ $(function(){
 
         return data;
       },
+
       addPoint: function (x,y,uid) {
         app.points[x+':'+y] = {
             'uid': uid,
@@ -405,6 +472,7 @@ $(function(){
         }
       }
     },
+
     pages: {
       login: {
         initPage: function() {}
@@ -418,7 +486,7 @@ $(function(){
         initPage: function() {
           app.helpers.switchPageTo(app.cachedEls.$game);
           app.helpers.initClouds();
-          $('#myModal').reveal();
+//          $('#myModal').reveal();
         }
       }
     }
