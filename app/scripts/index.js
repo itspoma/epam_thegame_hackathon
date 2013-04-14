@@ -7,6 +7,7 @@ $(function(){
       this.helpers.drawTable();
       this.bindEvents();
       app.initDummy();
+      app.pages.login.initPage();
     },
 
     initDummy: function() {
@@ -124,7 +125,8 @@ $(function(){
     userTurn: null,
     settings: {
       boardWidth: 10,
-      boardHeight: 7
+      boardHeight: 7,
+      winnerLimit: 5
     },
 
     properties: {
@@ -197,8 +199,9 @@ $(function(){
 
       playSound: function(){
         var sound = new Howl({
-          urls: ['../sounds/sheep.wav', '../sounds/sheep.wav', '../sounds/sheep.wav'],
-          volume: 0.5
+          //urls: ['../sounds/sound1.mp3', '../sounds/sheep.ogg', '../sounds/sound1.wav'],
+          urls: ['../sounds/sound1.wav']
+          //volume: 0.5
         }).play();
       }
     },
@@ -244,6 +247,10 @@ $(function(){
         var p2Score = $("#player2Info .score");
         p1Score.text(parseInt(p1Score.text()) + parseInt(player2Score));
         p2Score.text(parseInt(p2Score.text()) + parseInt(player1Score));
+
+        if(player1Score >= app.settings.winnerLimit){
+
+        }
       },
 
       updateTimer: function() {},
@@ -512,7 +519,9 @@ $(function(){
 
     pages: {
       login: {
-        initPage: function() {}
+        initPage: function() {
+          //app.sounds.playLoginSound();
+        }
       },
       lobby: {
         initPage: function() {
