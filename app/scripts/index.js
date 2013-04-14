@@ -180,31 +180,26 @@ $(function(){
     },
 
     sounds: {
-      playLoginSound: function(){
-        this.playSound();
-      },
-
       playGameSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/sound2.ogg', '../sounds/sound2.mp3'], loop: true});
       },
 
       playWinnerSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/horn.ogg', '../sounds/horn.mp3']});
       },
 
       playPlayer1PolygonSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/sheep.ogg', '../sounds/sheep.mp3']});
       },
 
       playPlayer2PolygonSound: function(){
-        this.playSound();
+        this.playSound({urls:['../sounds/wolf.ogg', '../sounds/wolf.mp3']});
       },
 
-      playSound: function(){
+      playSound: function(params){
         var sound = new Howl({
-          urls: ['../sounds/sound1.ogg', '../sounds/sheep.mp3']
-          //urls: ['../sounds/sound2.ogg']
-          //volume: 0.5
+          urls: params.urls,
+          loop: params.loop || false
         }).play();
       }
     },
@@ -523,7 +518,7 @@ $(function(){
     pages: {
       login: {
         initPage: function() {
-          app.sounds.playLoginSound();
+          app.sounds.playGameSound();
         }
       },
       lobby: {
