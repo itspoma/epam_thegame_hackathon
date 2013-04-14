@@ -175,7 +175,7 @@ table span.wolf.filled:hover {
 }
 
 /* responsive styles */
-@media all and (max-width: 1200px) {
+@media all and (max-width: 900px) {
   .player {
     width: 75px;
   }	
