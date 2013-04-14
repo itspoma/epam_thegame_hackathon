@@ -4,7 +4,7 @@ var express = require('express'),
     port    = parseInt(process.env.PORT, 10) || 3000,
     http    = require('http'),
     server  = http.createServer(app),
-    io      = require('socket.io').listen(server, { log: true });
+    io      = require('socket.io').listen(server, { log: false });
     
 app.configure(function(){
   app.use(express.methodOverride());
@@ -66,11 +66,14 @@ io.sockets.on('connection', function(socket) {
     users[client.id].isReadyForGame = true;
     //check all users for readiness
     for (var key in users){
-      if( ! users[key.isReadyForGame]) allAreReady = false;
+      console.log('CHECK if all are ready : ' + allAreReady);
+      if( ! users[key].isReadyForGame) allAreReady = false;
+      //console.log('CHECK if all are ready : ' + allAreReady);
     }
     //emit to ALL that all are ready and game should start
     if(allAreReady){
-      io.sockets.emit('startTurn', {player: {id : users[playerTurn] } } );
+      console.log('ALL ARE READY - START TURN: ' + usersID[playerTurn]);
+      io.sockets.emit('startTurn', {player: {id : usersID[playerTurn] } } );
     }; //else w8 for another player to be ready
   });
   //after player clicked on dot
