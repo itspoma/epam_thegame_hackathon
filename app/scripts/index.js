@@ -47,12 +47,13 @@ $(function(){
           app.properties.currentGameData = gameData;
           app.properties.currentUser = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + app.properties.currentUser);
-          if (app.properties.userId === app.properties.currentUser) {
-            $('table td').filter(function() {
+          //check if user has authority to make a turn and whether enemy did a click to redraw on our screen
+          if (app.properties.userId === app.properties.currentUser && gameData.enemy.point) {
+            /*$('table td').filter(function() {
               return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
             }).click();
-            var x,y = '';
-            setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
+            var x,y = '';*/
+            /*setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);*/
           } else if (app.properties.userId !== app.properties.currentUser) {
             // console.log(
             //   $('table td').filter(function() {
@@ -65,6 +66,7 @@ $(function(){
           //Show error popup
         });
       });
+      //APPLY click handlers
       $('table td', cachedEls.$container).on('click', app.binders.onPointClick);
     },
 
@@ -87,7 +89,7 @@ $(function(){
         var pointData = app.helpers.getPointData(x,y);
         console.log(pointData);
         if (pointData !== null) {
-            alert(pointData.user);
+            //alert(pointData.user);
             return;
         }
 
@@ -97,7 +99,7 @@ $(function(){
         app.helpers.addPoint(x, y, app.properties.userId);
         console.log(app.properties.currentGameData.enemy.id);
         app.helpers.calculatePolygon(x, y, app.properties.currentGameData.enemy.id);
-        app.helpers.makeTurn(x,y,hero);
+        app.helpers.makeTurn(x,y);
       }
     },
 
@@ -219,8 +221,8 @@ $(function(){
         );
       },
 
-      makeTurn: function(xIndex, yIndex, hero) {
-        var data = { point: {x : xIndex, y : yIndex}, hero: hero };
+      makeTurn: function(xIndex, yIndex) {
+        var data = { point: {x : xIndex, y : yIndex}, hero: app.properties.hero };
         app.properties.socket.emit('playerMadeTurn', data);
         console.log('TURN ENDED');
       },
