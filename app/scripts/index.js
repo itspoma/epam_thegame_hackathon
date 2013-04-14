@@ -143,25 +143,29 @@ $(function(){
       showWinnerMessage: function(){
         this.showMessage(
           '<h1>Woohoo!</h1>'+
-          '<p>You won the game!</p>'+
-          '<p><input type="image" src="../img/again.png"></p>'
+          '<p>You won the round!</p>'+
+          '<p><input type="image" src="../img/continue.png"></p>'
         );
       },
 
       showLoserMessage: function(){
         this.showMessage(
           '<h1>Damn!</h1>'+
-          '<p>Let\'s Try Again!</p>'+
-          '<p><input type="image" src="../img/again.png"></p>'
+          '<p>Let\'s try new round!</p>'+
+          '<p><input type="image" src="../img/continue.png"></p>'
         );
       },
 
       showErrorConnectionMessage: function(){
-        this.showMessage('');
+        this.showMessage(
+          '<h1>Damn!</h1>'+
+            '<p>Error connection!</p>';
+        );
       },
 
       showMessage: function(html){
         $('.reveal-modal').html(html);
+        $('.reveal-modal').show();
         $('.reveal-modal').reveal();
       },
 
