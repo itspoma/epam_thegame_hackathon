@@ -26,6 +26,7 @@ body {
 #container {
 	background: url('../img/dot.png') repeat top left;
 	padding: 20px;
+	position: relative;
 	width: 790px;
 }
 
@@ -178,6 +179,35 @@ table span.wolf.filled:hover {
 	background-image: url('../img/loader.gif');
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+/* sound icon */
+.sound {
+	display: block;
+  background: url('../img/sound.png') no-repeat top left;
+	height: 43px;
+	width: 35px;
+	opacity: .8;
+}
+
+.sound:hover {
+	opacity: 1;
+}
+
+.sound.disabled {
+	background-position: -35px 0;
+}
+
+.login .sound {
+	position: absolute;
+	right: 55px;
+	top: 0px;
+}
+
+#container .sound {
+	bottom: 10px;
+	position: absolute;
+	right: -50px;
 }
 
 /* responsive styles */
