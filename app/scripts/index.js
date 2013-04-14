@@ -30,6 +30,7 @@ $(function(){
 
         app.properties.socket.on('connected', function(client) {
           app.properties.userId = client.id;
+          app.properties.hero = client.hero;
           console.log(client.id + ' is connected');
         });
         app.properties.socket.on('gameReadyStatus', function(gameIsReady) {
@@ -48,7 +49,8 @@ $(function(){
           var playerTurnID = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + playerTurnID);
           if (app.properties.userId === playerTurnID) {
-            setTimeout( function() { app.helpers.makeTurn(); }, 5000);
+            var x,y = '';
+            setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
           } else if (app.properties.userId !== playerTurnID && gameData.enemy.point) {
             console.log(
               $('table td').filter(function() {
@@ -92,12 +94,12 @@ $(function(){
 
         var userData = app.helpers.getUserData(app.userTurn);
 
-        $('span',$td).addClass(userData.hero);
+        $('span',$td).addClass(app.properties.hero);
         app.helpers.addPoint(x, y, userData.id);
-
-        app.helpers.calculatePolygon(x, y, userData.id);
+        console.log(app.properties.currentGameData.enemy.id);
+        app.helpers.calculatePolygon(x, y, app.properties.currentGameData.enemy.id);
         //emit socket
-        app.helpers.makeTurn(x, y);
+        app.helpers.makeTurn(x,y,hero);
 
         if (app.userTurn == 1) {
           app.userTurn = 2;
@@ -131,7 +133,8 @@ $(function(){
       currentPage: $('section[id^="pagename-"]').filter(function () { return $(this).hasClass('active'); }),
       currentGameData: null,
       socket: '',
-      userId: ''
+      userId: '',
+      hero: ''
     },
 
     messages: {
@@ -222,8 +225,8 @@ $(function(){
         );
       },
 
-      makeTurn: function(xIndex, yIndex) {
-        var data = { x : xIndex, y : yIndex };
+      makeTurn: function(xIndex, yIndex, hero) {
+        var data = { point: {x : xIndex, y : yIndex}, hero: hero };
         app.properties.socket.emit('playerMadeTurn', data);
         console.log('TURN ENDED');
       },
