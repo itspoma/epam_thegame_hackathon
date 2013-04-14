@@ -49,11 +49,14 @@ $(function(){
           console.log('TURN STARTED: player turn - ' + app.properties.currentUser);
           //check if user has authority to make a turn and whether enemy did a click to redraw on our screen
           if (app.properties.userId === app.properties.currentUser && gameData.enemy.point) {
-            /*$('table td').filter(function() {
+            $td = $('table td').filter(function() {
               return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
-            }).click();
-            var x,y = '';*/
-            /*setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);*/
+            });
+            $('span',$td).addClass(gameData.enemy.hero);
+            app.helpers.addPoint(gameData.enemy.point.x, gameData.enemy.point.y, gameData.player.id);
+            app.helpers.calculatePolygon(gameData.enemy.point.x, gameData.enemy.point.y, gameData.player.id);
+
+            //setTimeout( function() { app.helpers.makeTurn(x,y,hero); }, 5000);
           } else if (app.properties.userId !== app.properties.currentUser) {
             // console.log(
             //   $('table td').filter(function() {
