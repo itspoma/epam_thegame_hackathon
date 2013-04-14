@@ -6,12 +6,7 @@ $(function(){
       this.cachedEls.initCache();
       this.helpers.drawTable();
       this.bindEvents();
-<<<<<<< HEAD
-      app.initDummy();
       app.pages.login.initPage();
-=======
-      //app.initDummy();
->>>>>>> removed dummy user swith code
     },
 
     initDummy: function() {
