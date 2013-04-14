@@ -26,6 +26,7 @@ body {
 #container {
 	background: url('../img/dot.png') repeat top left;
 	padding: 20px;
+	position: relative;
 	width: 790px;
 }
 
@@ -79,49 +80,22 @@ table td {
 }
 
 
-table td i.connected {
+div.connect_line {
     display: block;
     position: absolute;
-    background: url(https://github.com/itspoma/epam_thegame_hackathon/diff_blob/26d28144bbc327ff955b86208a430c66a5512af4/app/img/rope-red.png?raw=true) repeat;
     height: 10px;
     width: 75px;
     z-index: 1;
-    margin-top: 35px;
 }
-table td i.connected.connect_temp {
-    background-color: blue;
+.connect_line.type_sheep {
+    background: url(../img/rope-green.png) repeat;
+    box-shadow: green 0px 0px 35px 7px;
+    background-color: green;
 }
-table td i.connected.connect_left {
-    margin-left: -45px;
-}
-table td i.connected.connect_right {
-    margin-left: 45px;
-}
-table td i.connected.connect_bottom {
-    -webkit-transform: rotate(90deg);
-    margin-top: 75px;
-}
-table td i.connected.connect_bottomleft {
-    -webkit-transform: rotate(-45deg);
-    margin-left: -45px;
-    margin-top: 80px;
-}
-table td i.connected.connect_bottomright {
-    -webkit-transform: rotate(45deg);
-    margin-top: 80px;
-    margin-left: 45px;
-}
-table td i.connected.connect_topleft {
-    -webkit-transform: rotate(45deg);
-/*  margin-left: -25px;
-    margin-top: -10px;*/
-    margin-left: -35px;
-    margin-top: 0px;
-}
-table td i.connected.connect_topright {
-    -webkit-transform: rotate(135deg);
-    margin-left: 45px;
-    margin-top: 5px;
+.connect_line.type_wolf {
+    background: url(../img/rope-red.png) repeat;
+    box-shadow: red 0px 0px 35px 7px;
+    background-color: red;
 }
 
 table span {
@@ -146,7 +120,7 @@ table span.sheep {
 	background-position: -152px 0;
 }
 
-table span.sheep:hover {
+table span.sheep:hover, table span.sheep.hover {
 	background-position: -228px 0;
 }
 
@@ -154,7 +128,7 @@ table span.wolf {
 	background-position: -304px 0;
 }
 
-table span.wolf:hover {
+table span.wolf:hover, table span.wolf.hover {
 	background-position: -380px 0;
 }
 
@@ -178,6 +152,35 @@ table span.wolf.filled:hover {
 	background-image: url('../img/loader.gif');
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+/* sound icon */
+.sound {
+	display: block;
+  background: url('../img/sound.png') no-repeat top left;
+	height: 43px;
+	width: 35px;
+	opacity: .8;
+}
+
+.sound:hover {
+	opacity: 1;
+}
+
+.sound.disabled {
+	background-position: -35px 0;
+}
+
+.login .sound {
+	position: absolute;
+	right: 55px;
+	top: 0px;
+}
+
+#container .sound {
+	bottom: 10px;
+	position: absolute;
+	right: -50px;
 }
 
 /* responsive styles */
