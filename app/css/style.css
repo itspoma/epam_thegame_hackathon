@@ -13,7 +13,11 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
-body { overflow: hidden; }
+body { 
+  margin: 0px;
+	overflow: hidden;
+	padding: 20px 0;	
+}
 
 .wrapper {
 	text-align: center;
@@ -21,7 +25,6 @@ body { overflow: hidden; }
 
 #container {
 	background: url('../img/dot.png') repeat top left;
-	height: 545px;
 	padding: 20px;
 	width: 790px;
 }
@@ -175,4 +178,46 @@ table span.wolf.filled:hover {
 	background-image: url('../img/loader.gif');
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+/* responsive styles */
+@media all and (max-width: 1200px) {
+  .player {
+    width: 150px;
+  }
+	#container {
+		width: 660px;
+	}
+	table span {
+		background-size: 640px 64px;
+		height: 64px;
+		width: 64px;	
+	}
+	table span:hover {
+		background-position: -64px 0;
+	}
+	table span.sheep {
+		background-position: -128px -3px;
+	}
+	table span.sheep:hover {
+		background-position: -192px -3px;
+	}
+	table span.wolf {
+		background-position: -256px -3px;
+	}
+	table span.wolf:hover {
+		background-position: -320px -3px;
+	}
+	table span.sheep.filled {
+		background-position: -384px -3px;
+	}
+	table span.sheep.filled:hover {
+		background-position: -448px -3px;
+	}
+	table span.wolf.filled {
+		background-position: -512px -3px;
+	}
+	table span.wolf.filled:hover {
+		background-position: -576px -3px;
+	}
 }
