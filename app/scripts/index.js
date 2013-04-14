@@ -171,13 +171,13 @@ $(function(){
 
         app.helpers.calculatePolygon(x, y, app.properties.userId, function(){
           app.properties.currentUser = app.properties.userId;
-          app.sounds.playWinnerSound();
 
           var $scoreEl = $('.player.'+app.properties.currentHero+' .score');
           $scoreEl.text(parseInt($scoreEl.text()) + 1);
 
           if ($scoreEl.text() >= app.settings.winnerLimit ) {
             app.messages.showGameWinnerMessage();
+            app.sounds.playWinnerSound();
             return;
           }
           app.messages.showRoundWinnerMessage(function(){
@@ -247,7 +247,7 @@ $(function(){
 
       showRoundLoserMessage: function(cb){
         this.showMessage(
-          '<br><h1>Damn!</h1>'+
+          '<h1>Damn!</h1>'+
             '<p>Let\'s try new round!</p>'+
             '<p><input class="game-reset" type="image" src="../img/continue.png"></p>'
         );
@@ -257,7 +257,7 @@ $(function(){
       showGameLoserMessage: function(){
         this.showMessage(
           '<br><h1>Damn!</h1>'+
-            '<p>You lose.</p>'
+            '<p>You lost!</p>'
         );
       },
 
