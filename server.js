@@ -83,9 +83,10 @@ io.sockets.on('connection', function(socket) {
   socket.on('playerMadeTurn', function(data){
     console.log('\t socket.io:: previous player data : ' + JSON.stringify(data));
     playerTurn = playerTurn === 0 ? 1 : 0;
+    var enemyData = data || {};
     var turnDAta = { 
                     player: { id : usersID[playerTurn] }, 
-                    enemy: data
+                    enemy: enemyData
                     };
     io.sockets.emit('startTurn', turnDAta);
     console.log('TURN STARTED: player turn - ' + usersID[playerTurn]);
