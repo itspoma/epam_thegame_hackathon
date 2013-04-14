@@ -189,38 +189,38 @@ table span.wolf.filled:hover {
     width: 150px;
   }
 	#container {
-		width: 660px;
+		width: 330px;
 	}
 	table span {
-		background-size: 640px 64px;
-		height: 64px;
-		width: 64px;	
+		background-size: 320px 32px;
+		height: 32px;
+		width: 32px;	
 	}
 	table span:hover {
-		background-position: -64px 0;
+		background-position: -32px 0;
 	}
 	table span.sheep {
-		background-position: -128px -3px;
+		background-position: -64px -3px;
 	}
 	table span.sheep:hover {
-		background-position: -192px -3px;
+		background-position: -96px -3px;
 	}
 	table span.wolf {
-		background-position: -256px -3px;
+		background-position: -128px -3px;
 	}
 	table span.wolf:hover {
-		background-position: -320px -3px;
+		background-position: -160px -3px;
 	}
 	table span.sheep.filled {
-		background-position: -384px -3px;
+		background-position: -192px -3px;
 	}
 	table span.sheep.filled:hover {
-		background-position: -448px -3px;
+		background-position: -224px -3px;
 	}
 	table span.wolf.filled {
-		background-position: -512px -3px;
+		background-position: -256px -3px;
 	}
 	table span.wolf.filled:hover {
-		background-position: -576px -3px;
+		background-position: -288px -3px;
 	}
 }
