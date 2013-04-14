@@ -162,7 +162,7 @@ $(function(){
       showErrorConnectionMessage: function(){
         this.showMessage(
           '<h1>Damn!</h1>'+
-            '<p>Error connection!</p>';
+            '<p>Error connection!</p>'
         );
       },
 
@@ -202,8 +202,8 @@ $(function(){
 
       playSound: function(){
         var sound = new Howl({
-          //urls: ['../sounds/sound1.mp3', '../sounds/sheep.ogg', '../sounds/sound1.wav'],
-          urls: ['../sounds/sound2.ogg']
+          urls: ['../sounds/sound1.ogg', '../sounds/sheep.mp3']
+          //urls: ['../sounds/sound2.ogg']
           //volume: 0.5
         }).play();
       }
