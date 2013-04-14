@@ -19,11 +19,6 @@ $(function(){
 
     bindEvents: function() {
       var cachedEls = this.cachedEls;
-      $('#container table td span').on('click', function(){
-        var x = $(this).attr('data-x');
-        var y = $(this).attr('data-y');
-        app.helpers.makeTurn(x, y);
-      });
       //Launch connection process
       cachedEls.$play.on('click', function() { cachedEls.$body.trigger('connect'); });
       //Connect two players through lobby
@@ -48,6 +43,7 @@ $(function(){
           }
         });
         app.properties.socket.on('startTurn', function(gameData){
+          app.properties.currentGameData = gameData;
           var playerTurnID = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + playerTurnID);
           if(app.properties.userId === playerTurnID) {
@@ -60,12 +56,21 @@ $(function(){
 
     binders: {
       onPointClick: function(){
-        var $td = $(this);
+        
+        if (app.properties.currentGameData.player.id !== app.properties.userId) {
+          console.log('Its not your turn');
+          return false;
+        }
 
+        var $td = $(this);
         var x = $td.data('x');
         var y = $td.data('y');
 
+        console.log(x);
+        console.log(y);
+
         var pointData = app.helpers.getPointData(x,y);
+        console.log(pointData);
         if (pointData !== null) {
             alert(pointData.user);
             return;
@@ -77,6 +82,8 @@ $(function(){
         app.helpers.addPoint(x, y, userData.id);
 
         app.helpers.calculatePolygon(x, y, userData.id);
+        //emit socket
+        app.helpers.makeTurn(x, y);
 
         if (app.userTurn == 1) {
           app.userTurn = 2;
@@ -108,6 +115,7 @@ $(function(){
 
     properties: {
       currentPage: $('section[id^="pagename-"]').filter(function () { return $(this).hasClass('active'); }),
+      currentGameData: null,
       socket: '',
       userId: ''
     },
@@ -213,7 +221,7 @@ $(function(){
       },
 
       drawTable: function() {
-        var $container = app.cachedEls.$container;
+        var $container = $('#container');//app.cachedEls.$container;
         $container.append($('<table/>'));
 
         // append <tr></tr>
@@ -238,9 +246,7 @@ $(function(){
 
       getPointData: function(x,y) {
         var data = app.points[x+':'+y];
-        if (typeof(data) === 'undefined') {
-            return null;
-        }
+        if (typeof(data) === 'undefined') { return null; }
 
         data.$td = $('td', $('tr').eq(x-1)).eq(y-1);
 
