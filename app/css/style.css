@@ -186,8 +186,23 @@ table span.wolf.filled:hover {
 /* responsive styles */
 @media all and (max-width: 1200px) {
   .player {
-    width: 150px;
-  }
+    width: 75px;
+  }	
+	.player .avatar {
+		height: 75px;
+		width: 75px;
+		background-size: 150px 75px;
+	}
+	.player.wolf .avatar {
+		background-position: -75px 0;
+	}
+	.player h5 {
+		font-size: 22px;
+	}	
+	.player p {
+		font-size: 60px;
+		margin: 0;
+	}
 	#container {
 		width: 330px;
 	}
