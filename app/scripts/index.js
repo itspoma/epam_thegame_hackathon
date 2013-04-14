@@ -240,8 +240,8 @@ $(function(){
 
       showGameWinnerMessage: function(){
         this.showMessage(
-          '<h1>Woohoo!</h1>'+
-            '<p>You won the GAME!</p>'
+          '<br><h1>Woohoo!</h1>'+
+          '<p>You won the GAME!</p>'
         );
       },
 
@@ -270,7 +270,7 @@ $(function(){
 
       showErrorEnemyDisconected: function(){
         this.showMessage(
-          '<h1><br></h1>'+
+          '<br><h1><br></h1>'+
           '<p>Sorry, enemy left the game!</p>'
         );
       },
@@ -603,7 +603,7 @@ $(function(){
         initPage: function() {
           app.messages.hideMessage();
           app.helpers.switchPageTo(app.cachedEls.$game);
-          // app.helpers.initClouds();
+          app.helpers.initClouds();
         }
       }
     }
