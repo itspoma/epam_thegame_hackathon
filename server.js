@@ -1,7 +1,7 @@
 var express = require('express'),
     UUID    = require('node-uuid'),
     app     = express(),
-    port    = parseInt(process.env.PORT, 10) || 3000,
+    port    = parseInt(process.env.PORT, 10) || 5000,
     http    = require('http'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server, { log: false });
