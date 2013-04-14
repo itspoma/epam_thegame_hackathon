@@ -47,8 +47,17 @@ $(function(){
           app.properties.currentGameData = gameData;
           var playerTurnID = gameData.player.id;
           console.log('TURN STARTED: player turn - ' + playerTurnID);
-          if(app.properties.userId === playerTurnID) {
+          if (app.properties.userId === playerTurnID) {
             setTimeout( function() { app.helpers.makeTurn(); }, 5000);
+          } else if (app.properties.userId !== playerTurnID && gameData.enemy.point) {
+            console.log(
+              $('table td').filter(function() {
+                return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
+              })
+            );
+            $('table td').filter(function() {
+              return $(this).data('x') === gameData.enemy.point.x && $(this).data('y') === gameData.enemy.point.y;
+            }).click();
           }
         });
         app.properties.socket.on('enemyLeftGame', function() {
@@ -60,7 +69,8 @@ $(function(){
 
     binders: {
       onPointClick: function(){
-        
+
+        console.log(app.properties.currentGameData, 'currentGameData');
         if (app.properties.currentGameData.player.id !== app.properties.userId) {
           console.log('Its not your turn');
           return false;
